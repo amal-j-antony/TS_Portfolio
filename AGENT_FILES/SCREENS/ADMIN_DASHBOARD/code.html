@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#40009b","surface-container-highest":"#36343b","on-primary-fixed-variant":"#4f319c","secondary-fixed-dim":"#ddb8ff","surface-bright":"#3a383f","on-primary-container":"#3c1989","surface-container-low":"#1c1b21","on-secondary-container":"#d1a1ff","on-secondary-fixed-variant":"#62259b","on-tertiary":"#3c0091","tertiary-fixed-dim":"#d0bcff","error-container":"#93000a","surface-tint":"#cebdff","secondary":"#ddb8ff","outline-variant":"#494552","on-surface":"#e6e1ea","on-tertiary-fixed":"#23005c","background":"#141219","surface-container":"#201f25","surface-container-lowest":"#0f0d14","surface-dim":"#141219","primary-container":"#a78bfa","on-tertiary-fixed-variant":"#5516be","surface-container-high":"#2b2930","on-primary-fixed":"#21005e","primary":"#cebdff","on-primary":"#381385","secondary-fixed":"#f0dbff","inverse-surface":"#e6e1ea","primary-fixed":"#e8ddff","primary-fixed-dim":"#cebdff","on-secondary":"#490081","secondary-container":"#62259b","tertiary-fixed":"#e9ddff","inverse-primary":"#674bb5","outline":"#948e9d","inverse-on-surface":"#312f37","on-surface-variant":"#cac4d4","tertiary":"#d0bcff","on-secondary-fixed":"#2c0051","surface-variant":"#36343b","error":"#ffb4ab","on-background":"#e6e1ea","tertiary-container":"#ab88ff","surface":"#141219","on-error":"#690005","on-error-container":"#ffdad6"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},spacing:{"space-md":"1rem","gutter-mobile":"0.75rem","space-xl":"2.5rem",margin:"2rem","margin-mobile":"1.25rem","space-sm":"0.5rem",gutter:"1.25rem","space-lg":"1.5rem","space-xs":"0.25rem"},fontFamily:{"body-lg":["Inter"],"display-mobile":["Geist"],"body-md":["Inter"],"label-md":["Geist"],"headline-lg-mobile":["Geist"],display:["Geist"],"label-lg":["Geist"],"label-sm":["Geist"],"body-sm":["Inter"],"headline-lg":["Geist"],"headline-sm":["Geist"],"headline-md":["Geist"]},fontSize:{"body-lg":["18px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"400"}],"display-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.01em",fontWeight:"600"}],display:["56px",{lineHeight:"64px",letterSpacing:"-0.03em",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"400"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"headline-sm":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"500"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"500"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest/80 backdrop-blur-xl z-50 flex flex-col justify-between p-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-space-lg"><div class="flex items-center gap-space-sm px-space-xs"><span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span><span class="font-headline-sm text-headline-sm text-primary tracking-tight">Amal.j</span><span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-space-sm py-space-xs rounded-full">Admin</span></div><button class="w-full flex items-center justify-center gap-space-sm bg-primary-container text-on-primary-container font-label-lg text-label-lg py-space-sm px-space-md rounded-lg shadow-[0_0_20px_rgba(167,139,250,0.25)] hover:bg-primary hover:text-on-primary transition-all duration-200" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span>New Bookmark</span></button><nav class="flex flex-col gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-medium shadow-[0_0_12px_rgba(167,139,250,0.15)]"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="bookmarks-and-content" href="#"><span class="material-symbols-outlined text-[20px]">bookmark_manager</span><span class="font-label-lg text-label-lg">Bookmarks & Content</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="analytics" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-lg text-label-lg">Analytics</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="drafts-inbox" href="#"><span class="material-symbols-outlined text-[20px]">inbox</span><span class="font-label-lg text-label-lg">Drafts / Inbox</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="categories-and-tags" href="#"><span class="material-symbols-outlined text-[20px]">label</span><span class="font-label-lg text-label-lg">Categories & Tags</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Settings</span></a></nav></div><div class="flex flex-col gap-space-sm pt-space-md bg-surface-container-low/50 p-space-md rounded-DEFAULT"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm">Vault DB Connected</span></div><div class="font-label-sm text-label-sm text-outline">SQLite / Turso v0.24</div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md w-96"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">search</span><input class="w-full bg-surface-container-lowest/80 text-on-surface placeholder:text-outline text-body-sm font-body-sm pl-10 pr-4 py-2 rounded-full border-none focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search vault resources..." type="text"/></div></div><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md px-space-sm py-space-xs rounded-full hover:bg-surface-container" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Exit</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-16 px-gutter pb-space-xl flex-1"><div class="flex flex-col w-full">
+<div class="relative w-full overflow-hidden pb-space-xl">
+<!-- Atmospheric Ambient Glows -->
+<div class="pointer-events-none absolute -top-40 left-1/3 w-[560px] h-[560px] rounded-full bg-primary/10 blur-[130px]"></div>
+<div class="pointer-events-none absolute top-96 -right-20 w-[420px] h-[420px] rounded-full bg-secondary-container/20 blur-[120px]"></div>
+<!-- Quick Telemetry Metric Strip -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Metric 1 -->
+<div class="group relative rounded-xl bg-surface-container-low/70 backdrop-blur-md p-space-md shadow-md transition-all duration-300 hover:bg-surface-container/80 hover:-translate-y-0.5">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">inventory_2</span>
+            Total Stashed Resources
+          </span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary/15 text-primary">+12 wk</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight" id="stat-total">128</span>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            Sync SQLite
+          </div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-space-sm overflow-hidden">
+<div class="bg-primary h-full rounded-full w-[78%]"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="group relative rounded-xl bg-surface-container-low/70 backdrop-blur-md p-space-md shadow-md transition-all duration-300 hover:bg-surface-container/80 hover:-translate-y-0.5">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">hourglass_top</span>
+            Pending Drafts
+          </span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-secondary-container/40 text-secondary-fixed-dim">Review Req</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">07</span>
+<span class="font-label-sm text-label-sm text-outline">Needs categorizing</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-space-sm overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full rounded-full w-[34%]"></div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="group relative rounded-xl bg-surface-container-low/70 backdrop-blur-md p-space-md shadow-md transition-all duration-300 hover:bg-surface-container/80 hover:-translate-y-0.5">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-tertiary">public</span>
+            Public Showcase Items
+          </span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface">Live on Web</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">94</span>
+<span class="font-label-sm text-label-sm text-primary">73.4% published</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-space-sm overflow-hidden">
+<div class="bg-tertiary h-full rounded-full w-[73%]"></div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="group relative rounded-xl bg-surface-container-low/70 backdrop-blur-md p-space-md shadow-md transition-all duration-300 hover:bg-surface-container/80 hover:-translate-y-0.5">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary-container">trending_up</span>
+            Vault CTR / Reads
+          </span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary/20 text-primary">+18.4%</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">14.2k</span>
+<span class="font-label-sm text-label-sm text-outline">Rolling 30d</span>
+</div>
+<!-- Sparkline Vector -->
+<div class="w-full h-4 mt-space-xs flex items-end">
+<svg class="w-full h-4 text-primary overflow-visible" preserveaspectratio="none" viewbox="0 0 100 24">
+<path d="M0 19 L15 14 L30 18 L45 9 L60 12 L75 4 L90 8 L100 2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- Quick Add / Auto-Scrape Command Module -->
+<section class="rounded-xl bg-surface-container-low/90 backdrop-blur-xl p-space-lg mb-space-xl shadow-lg relative overflow-hidden">
+<div class="pointer-events-none absolute right-0 top-0 w-96 h-full bg-gradient-to-l from-primary/10 to-transparent"></div>
+<div class="relative z-10 flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(206,189,255,0.8)]"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Auto-Scrape Engine</span>
+<span class="font-label-sm text-label-sm text-outline px-space-xs py-0.5 rounded-full bg-surface-container">Headless Chromium Scraper</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">bolt</span> Supports X, Substack, GitHub, ArXiv, Dev.to
+          </span>
+</div>
+<div class="flex flex-col lg:flex-row items-stretch gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-[20px]">link</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md pl-12 pr-4 py-3 rounded-lg border-none focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="quick-url-input" placeholder="Paste article, GitHub repo, or tweet URL (e.g. https://github.com/libsql/sqld)..." type="url"/>
+</div>
+<div class="flex items-center gap-space-xs overflow-x-auto py-1">
+<button class="quick-type-chip px-space-md py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1 active:scale-95" data-type="Article" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span> Article
+            </button>
+<button class="quick-type-chip px-space-md py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1 active:scale-95" data-type="Dev Tool" type="button">
+<span class="material-symbols-outlined text-[16px]">terminal</span> Dev Tool
+            </button>
+<button class="quick-type-chip px-space-md py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1 active:scale-95" data-type="Tweet" type="button">
+<span class="material-symbols-outlined text-[16px]">tag</span> Tweet
+            </button>
+<button class="quick-type-chip px-space-md py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1 active:scale-95" data-type="Whitepaper" type="button">
+<span class="material-symbols-outlined text-[16px]">description</span> Paper
+            </button>
+</div>
+<button class="px-space-lg py-3 rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg flex items-center justify-center gap-space-xs hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-[0_0_24px_rgba(167,139,250,0.3)] shrink-0 active:scale-98" id="btn-fetch-scrape" type="button">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+<span>Fetch Metadata</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Workspace Split Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left / Center Main Area: Bookmarks Inventory (7 cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Interactive Control / Filter Bar -->
+<div class="flex flex-col gap-space-sm p-space-md rounded-xl bg-surface-container-low/70 backdrop-blur-md shadow-sm">
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">filter_list</span>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm pl-10 pr-4 py-2 rounded-full border-none focus:outline-none focus:ring-1 focus:ring-primary" id="resource-search" placeholder="Instant filter by title, tag (#sqlite), or domain..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative">
+<select class="bg-surface-container text-on-surface-variant font-label-md text-label-md py-2 px-space-md rounded-full border-none focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer pr-8 appearance-none" id="bulk-action-select">
+<option value="">Bulk Actions</option>
+<option value="publish">Mark as Published</option>
+<option value="draft">Move to Drafts</option>
+<option value="export">Export JSON Bundle</option>
+<option value="delete">Remove Stashes</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[16px] text-outline pointer-events-none">expand_more</span>
+</div>
+<button class="p-2 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" id="btn-export-view" title="Export current list" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+</button>
+</div>
+</div>
+<!-- Category and State Pills Row -->
+<div class="flex items-center justify-between gap-space-sm overflow-x-auto pt-space-xs">
+<div class="flex items-center gap-space-xs" id="status-filter-group">
+<button class="filter-pill active px-space-sm py-1 rounded-full font-label-sm text-label-sm bg-surface-container-high text-primary shadow-sm" data-filter="all">All (128)</button>
+<button class="filter-pill px-space-sm py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface" data-filter="published">Published (94)</button>
+<button class="filter-pill px-space-sm py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface" data-filter="draft">Drafts (7)</button>
+<button class="filter-pill px-space-sm py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface" data-filter="pinned">Pinned (4)</button>
+</div>
+<div class="flex items-center gap-space-xs text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span id="list-count-indicator">Showing 5 of 128</span>
+</div>
+</div>
+</div>
+<!-- Inventory List Container -->
+<div class="flex flex-col gap-space-xs" id="bookmark-list">
+<!-- Item 1: Turso / Distributed SQLite -->
+<article class="resource-card group relative p-space-md rounded-xl bg-surface-container-low/60 hover:bg-surface-container/80 backdrop-blur-md shadow-sm transition-all duration-200" data-pinned="true" data-status="published" data-type="Article">
+<div class="flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md flex-1 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/60 flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">database</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary">Article</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Published
+                    </span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary-fixed flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">push_pin</span> Featured
+                    </span>
+<span class="font-label-sm text-label-sm text-outline truncate">turso.tech/blog</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-primary transition-colors cursor-pointer">
+                    How Distributed SQLite Systems like Turso and Litestream Work
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+                    Deep dive into physical WAL replication, vector search extension integration, and edge-native zero-latency reads.
+                  </p>
+<div class="flex items-center gap-space-md mt-space-xs text-outline font-label-sm text-label-sm flex-wrap">
+<span class="text-secondary-fixed-dim">#databases</span>
+<span class="text-secondary-fixed-dim">#sqlite</span>
+<span class="text-secondary-fixed-dim">#systems</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 1.8k reads</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> 3 days ago</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Cluster -->
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="btn-pin p-2 rounded-full hover:bg-surface-container-high text-primary transition-colors" title="Toggle Pin" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors" href="https://turso.tech" rel="noopener noreferrer" target="_blank" title="Open Origin">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-edit-item p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" data-tags="databases, sqlite, systems" data-title="How Distributed SQLite Systems like Turso and Litestream Work" data-type="Article" data-url="https://turso.tech/blog/distributed-sqlite" title="Edit Stash" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-delete-item p-2 rounded-full hover:bg-surface-container-high text-error hover:text-on-error-container transition-colors" title="Archive / Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 2: ShaderToy GLSL Sandbox -->
+<article class="resource-card group relative p-space-md rounded-xl bg-surface-container-low/60 hover:bg-surface-container/80 backdrop-blur-md shadow-sm transition-all duration-200" data-pinned="false" data-status="published" data-type="Dev Tool">
+<div class="flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md flex-1 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/60 flex items-center justify-center text-tertiary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">view_in_ar</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-tertiary-container/30 text-tertiary">Dev Tool</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Published
+                    </span>
+<span class="font-label-sm text-label-sm text-outline truncate">shadertoy.com</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-primary transition-colors cursor-pointer">
+                    ShaderToy GLSL Sandbox & Procedural Noise Algorithms
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+                    Collection of Raymarching SDF formulas, volumetric cloud rendering tricks, and fragment shader math reference.
+                  </p>
+<div class="flex items-center gap-space-md mt-space-xs text-outline font-label-sm text-label-sm flex-wrap">
+<span class="text-secondary-fixed-dim">#webgl</span>
+<span class="text-secondary-fixed-dim">#shaders</span>
+<span class="text-secondary-fixed-dim">#math</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 940 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> 1 week ago</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="btn-pin p-2 rounded-full hover:bg-surface-container-high text-outline hover:text-primary transition-colors" title="Toggle Pin" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors" href="https://shadertoy.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-edit-item p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" data-tags="webgl, shaders, math" data-title="ShaderToy GLSL Sandbox" data-type="Dev Tool" data-url="https://shadertoy.com" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-delete-item p-2 rounded-full hover:bg-surface-container-high text-error hover:text-on-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 3: Framer Motion / Micro-interactions with curator note -->
+<article class="resource-card group relative p-space-md rounded-xl bg-surface-container-low/60 hover:bg-surface-container/80 backdrop-blur-md shadow-sm transition-all duration-200" data-pinned="false" data-status="published" data-type="Article">
+<div class="flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md flex-1 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/60 flex items-center justify-center text-secondary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">animation</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary">Article</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Published
+                    </span>
+<span class="font-label-sm text-label-sm text-outline truncate">framer.com/motion</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-primary transition-colors cursor-pointer">
+                    Crafting Micro-interactions with Framer Motion and Radix UI
+                  </h3>
+<!-- Curator Note Badge Callout -->
+<div class="flex items-center gap-space-xs p-2 rounded-DEFAULT bg-surface-container-highest/50 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span class="material-symbols-outlined text-[15px] text-primary shrink-0">sticky_note_2</span>
+<span class="truncate"><strong class="text-on-surface font-label-md">Amal Note:</strong> Check spring physics config: stiffness 380, damping 28 for zero rubberband lag.</span>
+</div>
+<div class="flex items-center gap-space-md mt-space-xs text-outline font-label-sm text-label-sm flex-wrap">
+<span class="text-secondary-fixed-dim">#ui-ux</span>
+<span class="text-secondary-fixed-dim">#animation</span>
+<span class="text-secondary-fixed-dim">#frontend</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 3.1k reads</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="btn-pin p-2 rounded-full hover:bg-surface-container-high text-outline hover:text-primary transition-colors" title="Toggle Pin" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-edit-item p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" data-tags="ui-ux, animation, frontend" data-title="Crafting Micro-interactions with Framer Motion and Radix UI" data-type="Article" data-url="https://motion.dev" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-delete-item p-2 rounded-full hover:bg-surface-container-high text-error hover:text-on-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 4: Tweet Guillermo Rauch -->
+<article class="resource-card group relative p-space-md rounded-xl bg-surface-container-low/60 hover:bg-surface-container/80 backdrop-blur-md shadow-sm transition-all duration-200" data-pinned="false" data-status="published" data-type="Tweet">
+<div class="flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md flex-1 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/60 flex items-center justify-center text-primary-fixed shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container/30 text-secondary-fixed">Tweet / Thread</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Published
+                    </span>
+<span class="font-label-sm text-label-sm text-outline">x.com/rauchg</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-primary transition-colors cursor-pointer">
+                    Guillermo Rauch on Server Components & Instant-first Architecture
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    "The shift from request-waterfalls to pre-rendered streaming graph partitions represents the single biggest architectural win for low-latency web..."
+                  </p>
+<div class="flex items-center gap-space-md mt-space-xs text-outline font-label-sm text-label-sm flex-wrap">
+<span class="text-secondary-fixed-dim">#rsc</span>
+<span class="text-secondary-fixed-dim">#architecture</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">favorite</span> 482</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">sync</span> 92 repos</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="btn-pin p-2 rounded-full hover:bg-surface-container-high text-outline hover:text-primary transition-colors" title="Toggle Pin" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-edit-item p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" data-tags="rsc, architecture" data-title="Guillermo Rauch on Server Components & Instant-first Architecture" data-type="Tweet" data-url="https://x.com/rauchg/status/178000" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-delete-item p-2 rounded-full hover:bg-surface-container-high text-error hover:text-on-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 5: vLLM PagedAttention (Draft state) -->
+<article class="resource-card group relative p-space-md rounded-xl bg-surface-container-low/60 hover:bg-surface-container/80 backdrop-blur-md shadow-sm transition-all duration-200" data-pinned="false" data-status="draft" data-type="Whitepaper">
+<div class="flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md flex-1 min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/60 flex items-center justify-center text-secondary-fixed shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">article</span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant">Whitepaper</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary-fixed-dim flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span> Needs Tag Review
+                    </span>
+<span class="font-label-sm text-label-sm text-outline truncate">arxiv.org/abs/2309</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight group-hover:text-primary transition-colors cursor-pointer">
+                    vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention
+                  </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+                    Virtual memory translation principles applied to Transformer KV cache management, reducing GPU fragmentation by 96%.
+                  </p>
+<div class="flex items-center gap-space-md mt-space-xs text-outline font-label-sm text-label-sm flex-wrap">
+<span class="text-secondary-fixed-dim">#ai-systems</span>
+<span class="text-secondary-fixed-dim">#inference</span>
+<span class="flex items-center gap-1 text-secondary-fixed-dim font-medium"><span class="material-symbols-outlined text-[14px]">edit_note</span> Ready for vault publish</span>
+</div>
+</div>
+</div>
+<!-- Draft Special Action -->
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="btn-quick-publish px-3 py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">publish</span> Publish
+                </button>
+<button class="btn-edit-item p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" data-tags="ai-systems, inference" data-title="vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention" data-type="Whitepaper" data-url="https://arxiv.org/abs/2309.06180" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-delete-item p-2 rounded-full hover:bg-surface-container-high text-error hover:text-on-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Inventory Footer / Pagination Bar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm p-space-md rounded-xl bg-surface-container-low/50 backdrop-blur-sm mt-space-xs">
+<div class="flex items-center gap-space-sm text-on-surface-variant font-label-md text-label-md">
+<span>Showing <strong class="text-on-surface">1 - 5</strong> of 128 stashes</span>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md text-outline">
+<span>Per page:</span>
+<select class="bg-transparent text-on-surface border-none focus:outline-none cursor-pointer">
+<option value="10">10</option>
+<option value="25">25</option>
+<option value="50">50</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold">1</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">3</button>
+<span class="text-outline px-1">...</span>
+<button class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">13</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Panel / Inspector: Quick Create / Edit Stash (5 cols) -->
+<div class="xl:col-span-5 sticky top-20 flex flex-col gap-space-md">
+<div class="relative rounded-2xl bg-surface-container-low/85 backdrop-blur-2xl p-space-lg shadow-xl overflow-hidden">
+<!-- Glass Highlight Overlay -->
+<div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+<div class="flex items-center justify-between pb-space-md mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]" id="drawer-icon">add_link</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight" id="drawer-title">Curate New Vault Stash</h2>
+<p class="font-label-sm text-label-sm text-outline">Direct publish into portfolio feed</p>
+</div>
+</div>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-0.5" id="btn-reset-form" type="button">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span> Reset
+            </button>
+</div>
+<form class="flex flex-col gap-space-md" id="stash-form" onsubmit="event.preventDefault();">
+<!-- Resource Title -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="form-title">
+<span>Resource Title</span>
+<span class="text-outline font-label-sm text-label-sm">Required</span>
+</label>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm px-space-md py-2.5 rounded-lg border-none focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="form-title" placeholder="e.g. Building an In-memory Distributed Key-Value Store" required="" type="text"/>
+</div>
+<!-- Target URL & Origin -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="form-url">Target URL</label>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm px-space-md py-2.5 rounded-lg border-none focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="form-url" placeholder="https://..." required="" type="url"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="form-domain">Source Domain</label>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm px-space-md py-2.5 rounded-lg border-none focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="form-domain" placeholder="github.com, arxiv..." type="text"/>
+</div>
+</div>
+<!-- Resource Type Segmented Control -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Resource Type</label>
+<div class="grid grid-cols-4 gap-1 p-1 bg-surface-container-lowest rounded-lg" id="form-type-selector">
+<button class="type-btn active py-2 rounded-md font-label-sm text-label-sm text-center bg-surface-container-high text-primary font-medium shadow-sm transition-all" data-val="Article" type="button">Article</button>
+<button class="type-btn py-2 rounded-md font-label-sm text-label-sm text-center text-on-surface-variant hover:text-on-surface transition-all" data-val="Tweet" type="button">Tweet</button>
+<button class="type-btn py-2 rounded-md font-label-sm text-label-sm text-center text-on-surface-variant hover:text-on-surface transition-all" data-val="Dev Tool" type="button">Tool</button>
+<button class="type-btn py-2 rounded-md font-label-sm text-label-sm text-center text-on-surface-variant hover:text-on-surface transition-all" data-val="Whitepaper" type="button">Paper</button>
+</div>
+</div>
+<!-- Personal Curator Note -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center justify-between" for="form-note">
+<span>Personal Curator Note / Why It Matters</span>
+<span class="text-outline font-label-sm text-label-sm">Supports markdown</span>
+</label>
+<textarea class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm p-space-md rounded-lg border-none focus:outline-none focus:ring-1 focus:ring-primary resize-none shadow-inner" id="form-note" placeholder="Why this resource is high signal for systems engineers, key takeaways, code timestamps..." rows="3"></textarea>
+</div>
+<!-- Tag Management -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Tags & Taxonomy</label>
+<div class="flex flex-wrap items-center gap-1.5 p-2 bg-surface-container-lowest rounded-lg min-h-[46px]" id="tag-container">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary text-label-sm font-label-sm">
+                  #sqlite
+                  <button class="remove-tag hover:text-error" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary text-label-sm font-label-sm">
+                  #systems
+                  <button class="remove-tag hover:text-error" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+<input class="bg-transparent text-on-surface placeholder:text-outline font-body-sm text-body-sm px-2 py-1 focus:outline-none flex-1 min-w-[100px]" id="tag-input" placeholder="+ add tag (Enter)" type="text"/>
+</div>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="font-label-sm text-label-sm text-outline">Suggested:</span>
+<button class="tag-quick-add font-label-sm text-label-sm text-primary hover:underline" type="button">+rust</button>
+<button class="tag-quick-add font-label-sm text-label-sm text-primary hover:underline" type="button">+webgl</button>
+<button class="tag-quick-add font-label-sm text-label-sm text-primary hover:underline" type="button">+concurrency</button>
+<button class="tag-quick-add font-label-sm text-label-sm text-primary hover:underline" type="button">+wasm</button>
+</div>
+</div>
+<!-- Publication Flags / Toggles -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<label class="flex items-center justify-between cursor-pointer p-space-xs rounded-lg hover:bg-surface-container/40">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Feature on Portfolio Grid</span>
+<span class="font-label-sm text-label-sm text-outline">Display high-prominence card on homepage</span>
+</div>
+<input checked="" class="w-4 h-4 accent-primary rounded cursor-pointer" id="toggle-feature" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between cursor-pointer p-space-xs rounded-lg hover:bg-surface-container/40">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Pin to Top of Vault</span>
+<span class="font-label-sm text-label-sm text-outline">Force item into VIP pinned section</span>
+</div>
+<input class="w-4 h-4 accent-primary rounded cursor-pointer" id="toggle-pin" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between cursor-pointer p-space-xs rounded-lg hover:bg-surface-container/40">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Allow Public Comments</span>
+<span class="font-label-sm text-label-sm text-outline">Enable webmentions and discussion thread</span>
+</div>
+<input checked="" class="w-4 h-4 accent-primary rounded cursor-pointer" id="toggle-comments" type="checkbox"/>
+</label>
+</div>
+<!-- Drawer Submit Buttons -->
+<div class="flex items-center gap-space-sm pt-space-sm">
+<button class="flex-1 py-3 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-lg text-label-lg transition-all flex items-center justify-center gap-1 active:scale-98" id="btn-save-draft" type="button">
+<span class="material-symbols-outlined text-[18px]">drafts</span>
+<span>Save as Draft</span>
+</button>
+<button class="flex-1 py-3 px-space-md rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg transition-all duration-200 hover:bg-primary hover:text-on-primary shadow-[0_0_24px_rgba(167,139,250,0.3)] flex items-center justify-center gap-1 active:scale-98" id="btn-publish-vault" type="submit">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+<span>Publish to Vault</span>
+</button>
+</div>
+</form>
+</div>
+<!-- System Sync Status Capsule -->
+<div class="rounded-xl bg-surface-container-low/50 backdrop-blur-md p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">sync_saved_locally</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cloudflare Edge Cache Active</span>
+<span class="font-label-sm text-label-sm text-outline">Incremental Static Regeneration (ISR) 60s</span>
+</div>
+</div>
+<button class="font-label-sm text-label-sm px-space-sm py-1 rounded-full bg-surface-container text-primary hover:bg-surface-container-high transition-colors" id="btn-purge-cache" type="button">
+            Purge Cache
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (() => {
+    // 1. Scrape Engine Mock Action
+    const scrapeBtn = document.getElementById('btn-fetch-scrape');
+    const urlInput = document.getElementById('quick-url-input');
+    const formTitle = document.getElementById('form-title');
+    const formUrl = document.getElementById('form-url');
+    const formDomain = document.getElementById('form-domain');
+    const formNote = document.getElementById('form-note');
+
+    if (scrapeBtn) {
+      scrapeBtn.addEventListener('click', () => {
+        const val = urlInput.value.trim();
+        if (!val) {
+          urlInput.focus();
+          urlInput.classList.add('ring-1', 'ring-secondary-container');
+          setTimeout(() => urlInput.classList.remove('ring-1', 'ring-secondary-container'), 1000);
+          return;
+        }
+
+        scrapeBtn.disabled = true;
+        const oldContent = scrapeBtn.innerHTML;
+        scrapeBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Scraping...</span>';
+
+        setTimeout(() => {
+          scrapeBtn.disabled = false;
+          scrapeBtn.innerHTML = oldContent;
+
+          // Fill inspector form
+          formUrl.value = val;
+          try {
+            const parsed = new URL(val);
+            formDomain.value = parsed.hostname.replace('www.', '');
+          } catch(e) {
+            formDomain.value = 'external.source';
+          }
+
+          if (val.includes('github')) {
+            formTitle.value = 'libsql/sqld: A Distributed SQLite Server Fork with Rust Engine';
+            formNote.value = 'High-frequency read optimization, fork of SQLite native engine with libSQL protocols.';
+          } else {
+            formTitle.value = 'Extracted Spec: Modern Distributed Systems & Memory Hierarchy';
+            formNote.value = 'Critical read on zero-copy serialization and IO_URING kernel pipelines.';
+          }
+
+          formTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          formTitle.classList.add('ring-2', 'ring-primary');
+          setTimeout(() => formTitle.classList.remove('ring-2', 'ring-primary'), 1400);
+        }, 650);
+      });
+    }
+
+    // 2. Filter Pills Interactive Logic
+    const filterPills = document.querySelectorAll('#status-filter-group .filter-pill');
+    const resourceCards = document.querySelectorAll('.resource-card');
+    const countIndicator = document.getElementById('list-count-indicator');
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => {
+          p.classList.remove('bg-surface-container-high', 'text-primary', 'shadow-sm');
+          p.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        pill.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        pill.classList.add('bg-surface-container-high', 'text-primary', 'shadow-sm');
+
+        const filterMode = pill.getAttribute('data-filter');
+        let visibleCount = 0;
+
+        resourceCards.forEach(card => {
+          const status = card.getAttribute('data-status');
+          const pinned = card.getAttribute('data-pinned') === 'true';
+
+          if (filterMode === 'all') {
+            card.style.display = 'block';
+            visibleCount++;
+          } else if (filterMode === 'published' && status === 'published') {
+            card.style.display = 'block';
+            visibleCount++;
+          } else if (filterMode === 'draft' && status === 'draft') {
+            card.style.display = 'block';
+            visibleCount++;
+          } else if (filterMode === 'pinned' && pinned) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (countIndicator) {
+          countIndicator.textContent = `Showing ${visibleCount} of 128`;
+        }
+      });
+    });
+
+    // 3. Search Bar Filter
+    const searchInput = document.getElementById('resource-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        let matchCount = 0;
+
+        resourceCards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (!query || text.includes(query)) {
+            card.style.display = 'block';
+            matchCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (countIndicator) {
+          countIndicator.textContent = `Showing ${matchCount} of 128`;
+        }
+      });
+    }
+
+    // 4. Quick Edit Populate
+    const editButtons = document.querySelectorAll('.btn-edit-item');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerIcon = document.getElementById('drawer-icon');
+
+    editButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const title = btn.getAttribute('data-title');
+        const url = btn.getAttribute('data-url');
+        const type = btn.getAttribute('data-type');
+
+        formTitle.value = title || '';
+        formUrl.value = url || '';
+        try {
+          formDomain.value = new URL(url).hostname;
+        } catch(e) {
+          formDomain.value = '';
+        }
+
+        drawerTitle.textContent = 'Edit Vault Stash';
+        drawerIcon.textContent = 'edit_note';
+
+        // Select correct type segmented button
+        document.querySelectorAll('.type-btn').forEach(tb => {
+          if (tb.getAttribute('data-val') === type) {
+            tb.classList.add('bg-surface-container-high', 'text-primary');
+            tb.classList.remove('text-on-surface-variant');
+          } else {
+            tb.classList.remove('bg-surface-container-high', 'text-primary');
+            tb.classList.add('text-on-surface-variant');
+          }
+        });
+
+        formTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+
+    // 5. Type Selector in Inspector Form
+    const typeButtons = document.querySelectorAll('.type-btn');
+    typeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        typeButtons.forEach(b => {
+          b.classList.remove('bg-surface-container-high', 'text-primary', 'shadow-sm');
+          b.classList.add('text-on-surface-variant');
+        });
+        btn.classList.add('bg-surface-container-high', 'text-primary', 'shadow-sm');
+        btn.classList.remove('text-on-surface-variant');
+      });
+    });
+
+    // 6. Tag Management Inside Drawer
+    const tagInput = document.getElementById('tag-input');
+    const tagContainer = document.getElementById('tag-container');
+    const quickTagBtns = document.querySelectorAll('.tag-quick-add');
+
+    const addTag = (text) => {
+      const clean = text.replace('#', '').trim();
+      if (!clean) return;
+      
+      const span = document.createElement('span');
+      span.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary text-label-sm font-label-sm';
+      span.innerHTML = `#${clean} <button type="button" class="remove-tag hover:text-error"><span class="material-symbols-outlined text-[13px]">close</span></button>`;
+      
+      tagContainer.insertBefore(span, tagInput);
+      tagInput.value = '';
+
+      span.querySelector('.remove-tag').addEventListener('click', () => {
+        span.remove();
+      });
+    };
+
+    if (tagInput) {
+      tagInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ',') {
+          e.preventDefault();
+          addTag(tagInput.value);
+        }
+      });
+    }
+
+    quickTagBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        addTag(btn.textContent.replace('+', ''));
+      });
+    });
+
+    document.querySelectorAll('.remove-tag').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.target.closest('span').remove();
+      });
+    });
+
+    // 7. Reset Form Action
+    const resetBtn = document.getElementById('btn-reset-form');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        document.getElementById('stash-form').reset();
+        drawerTitle.textContent = 'Curate New Vault Stash';
+        drawerIcon.textContent = 'add_link';
+      });
+    }
+
+    // 8. Quick Publish Button on Draft Card
+    const draftPublishBtn = document.querySelector('.btn-quick-publish');
+    if (draftPublishBtn) {
+      draftPublishBtn.addEventListener('click', (e) => {
+        const card = e.target.closest('.resource-card');
+        card.setAttribute('data-status', 'published');
+        const badgeContainer = card.querySelector('.line-clamp-1').previousElementSibling;
+        
+        draftPublishBtn.remove();
+        
+        const feedback = document.createElement('span');
+        feedback.className = 'font-label-sm text-label-sm text-primary px-2 py-1 rounded-md bg-surface-container';
+        feedback.textContent = 'Published to Vault!';
+        card.querySelector('.flex.items-center.gap-space-xs.shrink-0').prepend(feedback);
+      });
+    }
+
+    // 9. Cache Purge Micro-feedback
+    const purgeBtn = document.getElementById('btn-purge-cache');
+    if (purgeBtn) {
+      purgeBtn.addEventListener('click', () => {
+        purgeBtn.textContent = 'Purging...';
+        setTimeout(() => {
+          purgeBtn.textContent = 'Edge Purged ✓';
+          setTimeout(() => purgeBtn.textContent = 'Purge Cache', 2000);
+        }, 500);
+      });
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest/60 backdrop-blur-md py-space-md px-gutter flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm text-on-surface-variant">Amal.j Developer Vault Control System</span><span class="font-label-sm text-label-sm text-outline">Encrypted Session • SQLite/Turso Active</span></footer></div></body></html>
