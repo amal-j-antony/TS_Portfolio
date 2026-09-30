@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 import { ArrowLeft, ChevronDown } from "lucide-react"
 import AmbientBackdrop from "./AmbientBackdrop"
 import ArchiveHero from "./ArchiveHero"

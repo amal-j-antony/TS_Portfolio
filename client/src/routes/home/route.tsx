@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import GradientWaves from "./GradientWaves"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import Dock from "./Dock"
 import SocialsMenu from "./Socials"
 
@@ -48,7 +48,7 @@ function Home() {
                     <h1 className="text-5xl font-bold">Amal.j</h1>
                     <span className="text-xl font-bold">Full Stack Developer</span>
                     <div className="grid grid-cols-3 gap-5 mt-10">
-                        <Button variant={"outline"} size={"xl"} className="">Blog</Button>
+                        <Button onClick={() => nav('/blog')} variant={"outline"} size={"xl"} className="">Blog</Button>
                         <Button onClick={() => nav('/projects')} variant={"outline"} size={"xl"} className="">Projects</Button>
                         <Button variant={'outline'} size={'xl'} >Socials</Button>
                     </div>

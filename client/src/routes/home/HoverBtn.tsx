@@ -3,7 +3,7 @@ import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button";
 import { MdOutlineContactEmergency } from "react-icons/md";
 import { TbInfoHexagonFilled } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const buttonIcons = {
     bookList: {
