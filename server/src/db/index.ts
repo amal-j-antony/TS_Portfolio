@@ -1,8 +1,10 @@
-import { neon } from '@neondatabase/serverless'
-import 'dotenv/config'
-import { drizzle } from 'drizzle-orm/neon-http'
+import { Pool } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-serverless'
+import { env } from '../config/env.js'
 
+export const pool = new Pool({ connectionString: env.DATABASE_URL_POOLED })
+export const db = drizzle(pool)
 
-const DB_URL:string | undefined = process.env.DATABASE_URL 
-export const sql = neon(DB_URL!)
-export const db = drizzle(sql)
+export type Db = typeof db
+export type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
+export type DbClient = Db | Tx

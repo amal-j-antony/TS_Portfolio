@@ -1,19 +1,21 @@
-import express, { type Application } from 'express'
-import cors from 'cors'
+import { createApp } from './app.js'
+import { env } from './config/env.js'
+import { pool } from './db/index.js'
 import { logger } from './utils/logger.js'
-import { drizzle } from 'drizzle-orm/neon-http'
-import { neon } from '@neondatabase/serverless'
-import 'dotenv/config'
-import { mainRouter } from './routes/mainRoutes.js'
 
-const app:Application = express()
+const app = createApp()
 
-app.use(cors())
-
-app.use(mainRouter)
-
-const PORT = process.env.PORT
-
-app.listen(PORT,()=>{
-    logger.info('SERVER STARTED')
+const server = app.listen(env.PORT, () => {
+    logger.info({ port: env.PORT, env: env.NODE_ENV }, 'Server started')
 })
+
+function shutdown(signal: NodeJS.Signals): void {
+    logger.info({ signal }, 'Shutting down')
+
+    server.close(() => {
+        void pool.end().then(() => process.exit(0))
+    })
+}
+
+process.on('SIGTERM', () => shutdown('SIGTERM'))
+process.on('SIGINT', () => shutdown('SIGINT'))

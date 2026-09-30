@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react"
+import { useState, type FormEvent } from "react"
 import { Link, useNavigate } from "react-router"
 import {
     ArrowLeft,
@@ -10,6 +10,7 @@ import {
     Loader2,
     Lock,
 } from "lucide-react"
+import { login } from "@/lib/api"
 import { useServerStatus, type ServerStatus } from "@/lib/serverStatus"
 
 type AuthStatus = "idle" | "loading" | "success"
@@ -44,29 +45,24 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false)
     const [remember, setRemember] = useState(true)
     const [status, setStatus] = useState<AuthStatus>("idle")
-    const timers = useRef<number[]>([])
+    const [error, setError] = useState<string | null>(null)
     const { status: serverStatus, retry: retryServer } = useServerStatus()
 
-    useEffect(() => {
-        const currentTimers = timers.current
-        return () => {
-            currentTimers.forEach((timer) => window.clearTimeout(timer))
-        }
-    }, [])
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (!email.trim() || !password.trim() || status !== "idle") return
 
         setStatus("loading")
-        timers.current.push(
-            window.setTimeout(() => {
-                setStatus("success")
-                timers.current.push(
-                    window.setTimeout(() => navigate("/"), 900),
-                )
-            }, 1200),
-        )
+        setError(null)
+
+        try {
+            await login(email, password)
+            setStatus("success")
+            navigate("/")
+        } catch (submitError) {
+            setError(submitError instanceof Error ? submitError.message : "Unable to sign in")
+            setStatus("idle")
+        }
     }
 
     return (
@@ -201,6 +197,15 @@ export default function Login() {
                             </label>
                             
                         </div>
+
+                        {error && (
+                            <p
+                                role="alert"
+                                className="rounded-[1rem] bg-surface-container-lowest px-space-md py-2 font-display text-label-sm text-error"
+                            >
+                                {error}
+                            </p>
+                        )}
 
                         <button
                             type="submit"

@@ -13,7 +13,7 @@ async function pingServer(): Promise<void> {
     const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
     try {
-        const response = await fetch(`${API_BASE}/`, { signal: controller.signal })
+        const response = await fetch(`${API_BASE}/api/v1/health`, { signal: controller.signal })
         if (!response.ok) {
             throw new Error(`Server responded with ${response.status}`)
         }

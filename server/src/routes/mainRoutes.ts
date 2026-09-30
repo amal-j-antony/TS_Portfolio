@@ -1,7 +1,11 @@
-import express  from 'express'
+import { Router } from 'express'
 
-export const mainRouter = express.Router()
+export const mainRouter = Router()
 
-mainRouter.get('/',(req, res) => {
-    res.status(200).json('Server Running!')
+mainRouter.get('/', (_req, res) => {
+    res.status(200).json({ status: 'ok' })
+})
+
+mainRouter.get('/api/v1/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' })
 })

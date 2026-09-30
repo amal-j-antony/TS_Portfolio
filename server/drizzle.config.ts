@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import { defineConfig } from 'drizzle-kit';
 
-const baseSchemaURL:string = './src/db'
+const baseSchemaURL = './src/db'
 
 export default defineConfig({
   out: './drizzle',
-  schema: [`${baseSchemaURL}/schema.ts`,`${baseSchemaURL}/user.ts`],
+  schema: [`${baseSchemaURL}/schema.ts`, `${baseSchemaURL}/userSchema.ts`],
   dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL!,
