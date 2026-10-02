@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import { ApiError, getMe, type AuthUser } from "@/lib/api"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { ApiError, getMe, logout, type AuthUser } from "@/lib/api"
 
 export const sessionQueryKey = ["auth", "me"] as const
 
@@ -26,4 +26,13 @@ export function useSession(): Session {
 
     const user = query.data?.user ?? null
     return { user, isAuthenticated: user !== null, isLoading: query.isLoading }
+}
+
+export function useLogout() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: logout,
+        onSuccess: () => queryClient.setQueryData(sessionQueryKey, null),
+    })
 }

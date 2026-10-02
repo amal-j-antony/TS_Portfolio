@@ -55,3 +55,7 @@ export function login(email: string, password: string): Promise<{ user: AuthUser
 export function getMe(): Promise<{ user: AuthUser }> {
     return request<{ user: AuthUser }>("/api/v1/auth/me", { method: "GET" })
 }
+
+export function logout(): Promise<void> {
+    return request<void>("/api/v1/auth/logout", { method: "POST" })
+}
