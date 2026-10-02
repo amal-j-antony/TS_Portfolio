@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
+import { useQueryClient } from "@tanstack/react-query"
 import { ArrowLeft, ArrowRight, AtSign, Lock } from "lucide-react"
 import { useAppForm } from "@/components/form"
 import { login } from "@/lib/api"
+import { sessionQueryKey } from "@/lib/session"
 import { useServerStatus, type ServerStatus } from "@/lib/serverStatus"
 import { loginSchema } from "./schema"
 
@@ -31,6 +33,7 @@ const serverStatusMeta: Record<ServerStatus, { label: string; dot: string; text:
 
 export default function Login() {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const [remember, setRemember] = useState(true)
     const [serverError, setServerError] = useState<string | null>(null)
     const { status: serverStatus, retry: retryServer } = useServerStatus()
@@ -42,7 +45,8 @@ export default function Login() {
             setServerError(null)
 
             try {
-                await login(value.email, value.password)
+                const { user } = await login(value.email, value.password)
+                queryClient.setQueryData(sessionQueryKey, { user })
                 navigate("/")
             } catch (submitError) {
                 setServerError(submitError instanceof Error ? submitError.message : "Unable to sign in")

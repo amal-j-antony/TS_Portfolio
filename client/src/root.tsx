@@ -1,7 +1,13 @@
 import { Link, Outlet, isRouteErrorResponse, useRouteError } from "react-router"
+import LoggedInBadge from "./components/LoggedInBadge"
 
 export default function RootLayout() {
-    return <Outlet />
+    return (
+        <>
+            <LoggedInBadge />
+            <Outlet />
+        </>
+    )
 }
 
 export function RootError() {

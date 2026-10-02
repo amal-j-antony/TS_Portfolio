@@ -9,6 +9,16 @@ interface ApiErrorBody {
     error?: { code?: string; message?: string }
 }
 
+export class ApiError extends Error {
+    readonly status: number
+
+    constructor(message: string, status: number) {
+        super(message)
+        this.name = "ApiError"
+        this.status = status
+    }
+}
+
 async function request<T>(path: string, init: RequestInit): Promise<T> {
     const response = await fetch(`${API_BASE}${path}`, {
         credentials: "include",
@@ -25,7 +35,7 @@ async function request<T>(path: string, init: RequestInit): Promise<T> {
         } catch {
             // Response body was not JSON; keep the generic message.
         }
-        throw new Error(message)
+        throw new ApiError(message, response.status)
     }
 
     if (response.status === 204) {
@@ -40,4 +50,8 @@ export function login(email: string, password: string): Promise<{ user: AuthUser
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
     })
+}
+
+export function getMe(): Promise<{ user: AuthUser }> {
+    return request<{ user: AuthUser }>("/api/v1/auth/me", { method: "GET" })
 }
