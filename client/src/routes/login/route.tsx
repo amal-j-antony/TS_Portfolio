@@ -1,19 +1,10 @@
-import { useState, type FormEvent } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router"
-import {
-    ArrowLeft,
-    ArrowRight,
-    AtSign,
-    CheckCircle2,
-    Eye,
-    EyeOff,
-    Loader2,
-    Lock,
-} from "lucide-react"
+import { ArrowLeft, ArrowRight, AtSign, Lock } from "lucide-react"
+import { useAppForm } from "@/components/form"
 import { login } from "@/lib/api"
 import { useServerStatus, type ServerStatus } from "@/lib/serverStatus"
-
-type AuthStatus = "idle" | "loading" | "success"
+import { loginSchema } from "./schema"
 
 const serverStatusMeta: Record<ServerStatus, { label: string; dot: string; text: string }> = {
     checking: {
@@ -40,30 +31,31 @@ const serverStatusMeta: Record<ServerStatus, { label: string; dot: string; text:
 
 export default function Login() {
     const navigate = useNavigate()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
     const [remember, setRemember] = useState(true)
-    const [status, setStatus] = useState<AuthStatus>("idle")
-    const [error, setError] = useState<string | null>(null)
+    const [serverError, setServerError] = useState<string | null>(null)
     const { status: serverStatus, retry: retryServer } = useServerStatus()
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        if (!email.trim() || !password.trim() || status !== "idle") return
+    const form = useAppForm({
+        defaultValues: { email: "", password: "" },
+        validators: { onSubmit: loginSchema },
+        onSubmit: async ({ value }) => {
+            setServerError(null)
 
-        setStatus("loading")
-        setError(null)
-
-        try {
-            await login(email, password)
-            setStatus("success")
-            navigate("/")
-        } catch (submitError) {
-            setError(submitError instanceof Error ? submitError.message : "Unable to sign in")
-            setStatus("idle")
-        }
-    }
+            try {
+                await login(value.email, value.password)
+                navigate("/")
+            } catch (submitError) {
+                setServerError(submitError instanceof Error ? submitError.message : "Unable to sign in")
+            }
+        },
+        onSubmitInvalid: ({ formApi }) => {
+            const fieldMeta = formApi.state.fieldMeta
+            const invalidField = (Object.keys(fieldMeta) as Array<keyof typeof fieldMeta>).find(
+                (name) => (fieldMeta[name]?.errors.length ?? 0) > 0,
+            )
+            if (invalidField) document.getElementById(invalidField)?.focus()
+        },
+    })
 
     return (
         <main className="relative flex min-h-screen flex-col overflow-hidden bg-[#09080e]">
@@ -90,97 +82,51 @@ export default function Login() {
                 </span>
             </div>
 
-            <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-gutter py-space-xl">
+            <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-gutter py-space-xl ">
                 <div className="relative w-full max-w-[480px] overflow-hidden rounded-2xl bg-surface-container/70 p-space-xl shadow-xl shadow-surface-container-lowest/60 backdrop-blur-2xl">
                     <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-                    <header className="flex flex-col items-center gap-space-xs text-center">
-                        <div className="inline-flex items-center gap-space-xs rounded-full bg-surface-container-high/80 px-space-md py-1 shadow-inner">
-                            <span className="relative flex size-2">
-                                <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-                                <span className="relative inline-flex size-2 rounded-full bg-primary" />
-                            </span>
-                            <span className="font-display text-label-sm uppercase tracking-wider text-on-surface-variant">
-                                Restricted Node
-                            </span>
-                        </div>
-                        <h1 className="mt-space-xs font-display text-headline-md font-semibold tracking-tight text-on-surface">
-                            Curator Vault Access
+                    <header className="flex flex-col items-center gap-space-md text-center">
+                        <h1 className="my-space-md font-display text-headline-md font-semibold tracking-tight text-on-surface">
+                            Login
                         </h1>
-                        <p className="max-w-[340px] text-body-sm text-on-surface-variant">
-                            Authenticate to manage bookmarks, portfolio highlights, and sync Turso DB.
-                        </p>
                     </header>
 
-                    <div className="relative my-space-lg flex items-center justify-center">
-                        <div className="h-px w-full bg-surface-variant" />
-                        <span className="absolute bg-surface-container px-space-sm font-display text-label-sm uppercase tracking-widest text-outline">
-                            or credentials
-                        </span>
-                    </div>
-
-                    <form className="flex flex-col gap-space-md" onSubmit={handleSubmit}>
-                        <div className="flex flex-col gap-space-xs">
-                            <label
-                                htmlFor="admin-email"
-                                className="flex items-center justify-between font-display text-label-sm text-on-surface-variant"
-                            >
-                                <span>Username</span>
-                                <span className="text-[10px] tracking-wide text-primary">REQUIRED</span>
-                            </label>
-                            <div className="relative flex items-center">
-                                <AtSign className="pointer-events-none absolute left-3 size-[18px] text-outline" />
-                                <input
-                                    id="admin-email"
-                                    type="email"
-                                    required
-                                    value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
-                                    placeholder="curator@domain.dev"
-                                    className="w-full rounded-[1rem] bg-surface-container-lowest py-2.5 pl-10 pr-space-md text-body-sm text-on-surface shadow-inner transition-colors placeholder:text-outline-variant focus:bg-surface-container-low focus:outline-none"
-                                />
-                            </div>
+                    <form
+                        noValidate
+                        className="flex flex-col gap-space-lg"
+                        onSubmit={(event) => {
+                            event.preventDefault()
+                            void form.handleSubmit()
+                        }}
+                    >
+                        <div className="flex flex-col gap-space-md">
+                            <form.AppField
+                                name="email"
+                                children={(field) => (
+                                    <field.TextField
+                                        type="email"
+                                        required
+                                        placeholder="curator@domain.dev"
+                                        autoComplete="email"
+                                        icon={<AtSign className="size-[18px]" />}
+                                    />
+                                )}
+                            />
                         </div>
 
                         <div className="flex flex-col gap-space-xs">
-                            <div className="flex items-center justify-between">
-                                <label
-                                    htmlFor="master-token"
-                                    className="font-display text-label-sm text-on-surface-variant"
-                                >
-                                    Password
-                                </label>
-                                <a
-                                    href="#"
-                                    className="font-display text-label-sm text-primary transition-colors hover:text-primary-fixed"
-                                >
-                                    Emergency recovery
-                                </a>
-                            </div>
-                            <div className="relative flex items-center">
-                                <Lock className="pointer-events-none absolute left-3 size-[18px] text-outline" />
-                                <input
-                                    id="master-token"
-                                    type={showPassword ? "text" : "password"}
-                                    required
-                                    value={password}
-                                    onChange={(event) => setPassword(event.target.value)}
-                                    placeholder="••••••••••••••••"
-                                    className="w-full rounded-[1rem] bg-surface-container-lowest py-2.5 pl-10 pr-10 text-body-sm tracking-widest text-on-surface shadow-inner transition-colors placeholder:text-outline-variant focus:bg-surface-container-low focus:outline-none"
-                                />
-                                <button
-                                    type="button"
-                                    title="Toggle token visibility"
-                                    onClick={() => setShowPassword((value) => !value)}
-                                    className="absolute right-3 flex items-center justify-center rounded-full p-1 text-outline transition-colors hover:text-on-surface"
-                                >
-                                    {showPassword ? (
-                                        <EyeOff className="size-[18px]" />
-                                    ) : (
-                                        <Eye className="size-[18px]" />
-                                    )}
-                                </button>
-                            </div>
+                            <form.AppField
+                                name="password"
+                                children={(field) => (
+                                    <field.PasswordField
+                                        required
+                                        placeholder="••••••••••••••••"
+                                        autoComplete="current-password"
+                                        icon={<Lock className="size-[18px]" />}
+                                    />
+                                )}
+                            />
                         </div>
 
                         <div className="flex items-center justify-between pt-space-xs">
@@ -195,37 +141,29 @@ export default function Login() {
                                     Remember me
                                 </span>
                             </label>
-                            
                         </div>
 
-                        {error && (
+                        {serverError && (
                             <p
                                 role="alert"
                                 className="rounded-[1rem] bg-surface-container-lowest px-space-md py-2 font-display text-label-sm text-error"
                             >
-                                {error}
+                                {serverError}
                             </p>
                         )}
 
-                        <button
-                            type="submit"
-                            disabled={status !== "idle"}
-                            className="group mt-space-xs flex w-full items-center justify-center gap-space-sm rounded-[1rem] bg-primary px-space-md py-3 font-display text-label-lg font-medium text-on-primary shadow-lg shadow-on-tertiary-container/30 transition-all duration-200 hover:bg-primary-fixed active:scale-[0.98] disabled:cursor-default disabled:opacity-90"
-                        >
-                            <span>
-                                {status === "idle" && "Unlock Vault Dashboard"}
-                                {status === "loading" && "Authenticating Secure Node..."}
-                                {status === "success" && "Decryption Complete"}
-                            </span>
-                            {status === "idle" && (
-                                <ArrowRight className="size-[18px] transition-transform group-hover:translate-x-0.5" />
-                            )}
-                            {status === "loading" && <Loader2 className="size-[18px] animate-spin" />}
-                            {status === "success" && <CheckCircle2 className="size-[18px]" />}
-                        </button>
+                        <form.AppForm>
+                            <form.SubmitButton
+                                pendingLabel="Authenticating Secure Node..."
+                                className="mt-space-xs"
+                                icon={
+                                    <ArrowRight className="size-[18px] transition-transform group-hover:translate-x-0.5" />
+                                }
+                            >
+                                Unlock Vault Dashboard
+                            </form.SubmitButton>
+                        </form.AppForm>
                     </form>
-
-                    
                 </div>
 
                 <div className="mt-space-lg flex items-center justify-center gap-space-lg">
