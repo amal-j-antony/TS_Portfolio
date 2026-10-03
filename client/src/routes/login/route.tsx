@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router"
+import { Link, useNavigate, useSearchParams } from "react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { ArrowLeft, ArrowRight, AtSign, Lock } from "lucide-react"
 import { useAppForm } from "@/components/form"
@@ -33,10 +33,17 @@ const serverStatusMeta: Record<ServerStatus, { label: string; dot: string; text:
 
 export default function Login() {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
     const queryClient = useQueryClient()
     const [remember, setRemember] = useState(true)
     const [serverError, setServerError] = useState<string | null>(null)
     const { status: serverStatus, retry: retryServer } = useServerStatus()
+
+    const requestedNext = searchParams.get("next")
+    const redirectTo =
+        requestedNext && requestedNext.startsWith("/") && !requestedNext.startsWith("//")
+            ? requestedNext
+            : "/dashboard"
 
     const form = useAppForm({
         defaultValues: { email: "", password: "" },
@@ -47,7 +54,7 @@ export default function Login() {
             try {
                 const { user } = await login(value.email, value.password)
                 queryClient.setQueryData(sessionQueryKey, { user })
-                navigate("/")
+                navigate(redirectTo)
             } catch (submitError) {
                 setServerError(submitError instanceof Error ? submitError.message : "Unable to sign in")
             }

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router"
+import { requireSession } from "./lib/session"
 import RootLayout, { RootError } from "./root"
 
 export const router = createBrowserRouter([
@@ -30,6 +31,45 @@ export const router = createBrowserRouter([
             {
                 path: "projects",
                 lazy: async () => ({ Component: (await import("./routes/projects/route")).default }),
+            },
+            {
+                path: "dashboard",
+                loader: requireSession,
+                lazy: async () => ({
+                    Component: (await import("./routes/dashboard/route")).default,
+                }),
+                children: [
+                    {
+                        index: true,
+                        lazy: async () => ({
+                            Component: (await import("./routes/dashboard/dashboard")).default,
+                        }),
+                    },
+                    {
+                        path: "analytics",
+                        lazy: async () => ({
+                            Component: (await import("./routes/dashboard/analytics/route")).default,
+                        }),
+                    },
+                    {
+                        path: "drafts",
+                        lazy: async () => ({
+                            Component: (await import("./routes/dashboard/drafts/route")).default,
+                        }),
+                    },
+                    {
+                        path: "tags",
+                        lazy: async () => ({
+                            Component: (await import("./routes/dashboard/tags/route")).default,
+                        }),
+                    },
+                    {
+                        path: "settings",
+                        lazy: async () => ({
+                            Component: (await import("./routes/dashboard/settings/route")).default,
+                        }),
+                    },
+                ],
             },
             {
                 path: "*",

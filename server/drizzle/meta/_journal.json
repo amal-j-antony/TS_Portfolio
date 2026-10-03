@@ -22,6 +22,13 @@
       "when": 1790807342705,
       "tag": "0002_windy_tombstone",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790980880257,
+      "tag": "0003_volatile_roxanne_simpson",
+      "breakpoints": true
     }
   ]
 }

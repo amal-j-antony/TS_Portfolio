@@ -8,6 +8,10 @@ import { errorHandler } from './middleware/errorHandler.js'
 import { notFound } from './middleware/notFound.js'
 import { authRouter } from './routes/authRoutes.js'
 import { mainRouter } from './routes/mainRoutes.js'
+import { publicRouter } from './routes/publicRoutes.js'
+import { resourceRouter } from './routes/resourceRoutes.js'
+import { settingsRouter } from './routes/settingsRoutes.js'
+import { tagRouter } from './routes/tagRoutes.js'
 import { logger } from './utils/logger.js'
 
 export function createApp(): Express {
@@ -22,6 +26,10 @@ export function createApp(): Express {
 
     app.use(mainRouter)
     app.use('/api/v1/auth', authRouter)
+    app.use('/api/v1/public', publicRouter)
+    app.use('/api/v1/resources', resourceRouter)
+    app.use('/api/v1/tags', tagRouter)
+    app.use('/api/v1/settings', settingsRouter)
 
     app.use(notFound)
     app.use(errorHandler)

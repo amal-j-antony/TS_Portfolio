@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { redirect } from "react-router"
 import { ApiError, getMe, logout, type AuthUser } from "@/lib/api"
 
 export const sessionQueryKey = ["auth", "me"] as const
@@ -35,4 +36,21 @@ export function useLogout() {
         mutationFn: logout,
         onSuccess: () => queryClient.setQueryData(sessionQueryKey, null),
     })
+}
+
+export async function requireSession({
+    request,
+}: {
+    request: Request
+}): Promise<{ user: AuthUser }> {
+    try {
+        return await getMe()
+    } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+            const url = new URL(request.url)
+            const next = `${url.pathname}${url.search}`
+            throw redirect(`/login?next=${encodeURIComponent(next)}`)
+        }
+        throw error
+    }
 }
