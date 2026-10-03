@@ -62,6 +62,7 @@ export interface ResourceStats {
     pinned: number
     reads: number
     publishedPercent: number
+    byType: Record<ResourceType, number>
 }
 
 const resourceColumns = {
@@ -255,6 +256,22 @@ export async function stats(client: DbClient): Promise<ResourceStats> {
     const total = Number(row?.total ?? 0)
     const published = Number(row?.published ?? 0)
 
+    const byTypeRows = await client
+        .select({ type: resourcesTable.type, value: count() })
+        .from(resourcesTable)
+        .groupBy(resourcesTable.type)
+
+    const byType: Record<ResourceType, number> = {
+        article: 0,
+        tweet: 0,
+        tool: 0,
+        paper: 0,
+        video: 0,
+    }
+    for (const typeRow of byTypeRows) {
+        byType[typeRow.type] = Number(typeRow.value)
+    }
+
     return {
         total,
         published,
@@ -262,6 +279,7 @@ export async function stats(client: DbClient): Promise<ResourceStats> {
         pinned: Number(row?.pinned ?? 0),
         reads: Number(row?.reads ?? 0),
         publishedPercent: total === 0 ? 0 : Math.round((published / total) * 1000) / 10,
+        byType,
     }
 }
 

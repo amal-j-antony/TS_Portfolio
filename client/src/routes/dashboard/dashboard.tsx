@@ -6,7 +6,11 @@ import CurateStashPanel from "./components/CurateStashPanel"
 import DashboardFooter from "./components/DashboardFooter"
 import Pagination from "./components/Pagination"
 import ResourceCard from "./components/ResourceCard"
-import ResourceToolbar, { type BulkAction, type StatusFilter } from "./components/ResourceToolbar"
+import ResourceToolbar, {
+    type BulkAction,
+    type StatusFilter,
+    type TypeFilter,
+} from "./components/ResourceToolbar"
 import TelemetryStrip from "./components/TelemetryStrip"
 
 export default function Dashboard() {
@@ -15,6 +19,7 @@ export default function Dashboard() {
     const [domain, setDomain] = useState("")
     const [debouncedDomain, setDebouncedDomain] = useState("")
     const [status, setStatus] = useState<StatusFilter>("all")
+    const [typeFilter, setTypeFilter] = useState<TypeFilter>("all")
     const [page, setPage] = useState(1)
     const [perPage, setPerPage] = useState(10)
     const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
@@ -38,6 +43,7 @@ export default function Dashboard() {
         ...(debouncedQ ? { q: debouncedQ } : {}),
         ...(debouncedDomain ? { domain: debouncedDomain } : {}),
         ...(status === "all" ? {} : { status }),
+        ...(typeFilter === "all" ? {} : { type: typeFilter }),
     }
 
     const resourcesQuery = useResources(filters)
@@ -120,7 +126,21 @@ export default function Dashboard() {
                             setStatus(value)
                             setPage(1)
                         }}
+                        typeFilter={typeFilter}
+                        onTypeFilterChange={(value) => {
+                            setTypeFilter(value)
+                            setPage(1)
+                        }}
                         counts={counts}
+                        typeCounts={
+                            statsQuery.data?.byType ?? {
+                                article: 0,
+                                tweet: 0,
+                                tool: 0,
+                                paper: 0,
+                                video: 0,
+                            }
+                        }
                         selectedCount={selectedIds.size}
                         onBulk={handleBulk}
                         onExport={handleExport}

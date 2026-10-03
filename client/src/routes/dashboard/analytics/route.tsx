@@ -1,4 +1,3 @@
-import { useMemo } from "react"
 import { Eye, FileText, Globe, Inbox, Package } from "lucide-react"
 import { useResources, useResourceStats } from "@/lib/resources"
 import { resourceTypeMeta } from "../data"
@@ -8,14 +7,7 @@ export default function Analytics() {
     const statsQuery = useResourceStats()
     const resourcesQuery = useResources({ perPage: 100, sort: "reads" })
     const stats = statsQuery.data
-
-    const byType = useMemo(() => {
-        const map = new Map<ResourceType, number>()
-        for (const resource of resourcesQuery.data?.items ?? []) {
-            map.set(resource.type, (map.get(resource.type) ?? 0) + 1)
-        }
-        return map
-    }, [resourcesQuery.data])
+    const byType = stats?.byType
 
     const topResources = (resourcesQuery.data?.items ?? []).slice(0, 5)
 
@@ -38,7 +30,7 @@ export default function Analytics() {
             <section className="flex flex-col gap-space-md rounded-2xl border border-outline-variant/20 bg-surface-container-low/50 p-space-lg backdrop-blur-md">
                 <h2 className="font-display text-headline-sm font-medium text-on-surface">Content Mix</h2>
                 {(Object.keys(resourceTypeMeta) as ResourceType[]).map((type) => {
-                    const count = byType.get(type) ?? 0
+                    const count = byType?.[type] ?? 0
                     const total = stats?.total ?? 0
                     const percent = total === 0 ? 0 : Math.round((count / total) * 100)
                     return (

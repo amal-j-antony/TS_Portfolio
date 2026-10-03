@@ -1,5 +1,13 @@
 import { useState, type ReactNode } from "react"
-import { Eye, EyeOff, X } from "lucide-react"
+import { Eye, EyeOff, ChevronDown, X } from "lucide-react"
+import {
+    Button,
+    ListBox,
+    ListBoxItem,
+    Popover,
+    Select,
+    SelectValue,
+} from "react-aria-components"
 import { cn } from "@/lib/utils"
 import { useFieldContext } from "./context"
 import { firstErrorMessage } from "./error"
@@ -214,35 +222,53 @@ export function CheckboxField({ label, description }: CheckboxFieldProps) {
     )
 }
 
-interface SegmentedFieldProps {
+interface SelectFieldProps {
     options: Array<{ value: string; label: string }>
+    placeholder?: string
 }
 
-export function SegmentedField({ options }: SegmentedFieldProps) {
+export function SelectField({ options, placeholder = "Select an option" }: SelectFieldProps) {
     const field = useFieldContext<string>()
+    const message = firstErrorMessage(field.state.meta.errors)
 
     return (
-        <div role="radiogroup" className="grid grid-cols-4 gap-space-xs rounded-[1rem] bg-surface-container-lowest p-1">
-            {options.map((option) => {
-                const active = field.state.value === option.value
-                return (
-                    <button
-                        key={option.value}
-                        type="button"
-                        role="radio"
-                        aria-checked={active}
-                        onClick={() => field.handleChange(option.value)}
-                        className={cn(
-                            "rounded-lg px-space-sm py-1.5 font-display text-label-md transition-colors",
-                            active
-                                ? "bg-primary text-on-primary"
-                                : "text-on-surface-variant hover:bg-surface-container",
-                        )}
-                    >
-                        {option.label}
-                    </button>
-                )
-            })}
+        <div className="flex flex-col gap-space-xs">
+            <Select
+                selectedKey={field.state.value}
+                onSelectionChange={(key) => field.handleChange(String(key))}
+                onBlur={field.handleBlur}
+                isInvalid={Boolean(message)}
+                className="w-full"
+            >
+                <Button className="flex w-full cursor-pointer items-center justify-between gap-space-sm rounded-[1rem] bg-surface-container-lowest px-space-md py-2.5 text-body-sm text-on-surface shadow-inner outline-none transition-colors data-hovered:bg-surface-container-low data-focused:ring-2 data-focused:ring-primary/50 aria-invalid:ring-1 aria-invalid:ring-error/60">
+                    <SelectValue className="truncate data-placeholder:text-outline-variant">
+                        {({ selectedText, isPlaceholder }) => (isPlaceholder ? placeholder : selectedText)}
+                    </SelectValue>
+                    <ChevronDown className="size-4 shrink-0 text-on-surface-variant" />
+                </Button>
+                <Popover
+                    placement="bottom start"
+                    offset={6}
+                    className="z-[60] w-[var(--trigger-width)] rounded-xl border border-outline-variant/40 bg-surface-container/95 p-1 shadow-xl backdrop-blur-xl outline-none"
+                >
+                    <ListBox className="outline-none">
+                        {options.map((option) => (
+                            <ListBoxItem
+                                key={option.value}
+                                id={option.value}
+                                className="cursor-pointer rounded-lg px-space-md py-2 font-display text-label-md text-on-surface outline-none data-focused:bg-primary/10 data-selected:bg-primary/15 data-selected:text-primary"
+                            >
+                                {option.label}
+                            </ListBoxItem>
+                        ))}
+                    </ListBox>
+                </Popover>
+            </Select>
+            {message && (
+                <p role="alert" className="font-display text-label-sm text-error">
+                    {message}
+                </p>
+            )}
         </div>
     )
 }

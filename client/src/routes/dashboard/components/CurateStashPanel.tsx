@@ -85,11 +85,9 @@ export default function CurateStashPanel({
                     <FileText className="size-5 text-primary" />
                     <div className="flex flex-col">
                         <h2 className="font-display text-headline-sm font-medium text-on-surface">
-                            {editingResource ? "Edit Vault Stash" : "Curate New Vault Stash"}
+                            {editingResource ? "Edit Vault Stash" : "New Bookmark"}
                         </h2>
-                        <span className="font-display text-label-sm text-on-surface-variant">
-                            {editingResource ? "Update an existing stash" : "Direct publish into portfolio feed"}
-                        </span>
+                        
                     </div>
                 </div>
                 <button
@@ -115,7 +113,7 @@ export default function CurateStashPanel({
             >
                 <div className="flex flex-col gap-space-xs">
                     <label htmlFor="title" className="font-display text-label-md text-on-surface-variant">
-                        Resource Title <span className="text-error">Required</span>
+                         Title <span className="text-error">Required</span>
                     </label>
                     <form.AppField
                         name="title"
@@ -148,7 +146,9 @@ export default function CurateStashPanel({
                     <span className="font-display text-label-md text-on-surface-variant">Resource Type</span>
                     <form.AppField
                         name="type"
-                        children={(field) => <field.SegmentedField options={resourceTypeOptions} />}
+                        children={(field) => (
+                            <field.SelectField options={resourceTypeOptions} placeholder="Select a type" />
+                        )}
                     />
                 </div>
 
@@ -241,7 +241,7 @@ export default function CurateStashPanel({
                         className="flex flex-1 items-center justify-center gap-space-sm rounded-[1rem] bg-primary px-space-md py-3 font-display text-label-lg font-medium text-on-primary shadow-lg shadow-on-tertiary-container/30 transition-colors hover:bg-primary-fixed disabled:opacity-60"
                     >
                         <Rocket className="size-[18px]" />
-                        {isSaving ? "Saving…" : "Publish to Vault"}
+                        {isSaving ? "Saving…" : "Publish"}
                     </button>
                 </div>
             </form>

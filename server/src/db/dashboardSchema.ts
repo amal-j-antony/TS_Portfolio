@@ -10,7 +10,13 @@ import {
     timestamp,
 } from 'drizzle-orm/pg-core'
 
-export const resourceTypeEnum = pgEnum('resource_type', ['article', 'tweet', 'tool', 'paper'])
+export const resourceTypeEnum = pgEnum('resource_type', [
+    'article',
+    'tweet',
+    'tool',
+    'paper',
+    'video',
+])
 export const resourceStatusEnum = pgEnum('resource_status', ['draft', 'published'])
 
 export type ResourceType = (typeof resourceTypeEnum.enumValues)[number]

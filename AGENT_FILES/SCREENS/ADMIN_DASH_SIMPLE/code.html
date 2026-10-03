@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#141219",
+            "surface": "#141219",
+            "surface-dim": "#141219",
+            "surface-container-lowest": "#0f0d14",
+            "surface-container-low": "#1c1b21",
+            "surface-container": "#201f25",
+            "surface-container-high": "#2b2930",
+            "surface-container-highest": "#36343b",
+            "primary": "#cebdff",
+            "primary-container": "#a78bfa",
+            "on-primary": "#381385",
+            "on-primary-container": "#3c1989",
+            "secondary": "#ddb8ff",
+            "secondary-container": "#62259b",
+            "tertiary": "#d0bcff",
+            "on-surface": "#e6e1ea",
+            "on-surface-variant": "#cac4d4",
+            "outline": "#948e9d",
+            "outline-variant": "#494552",
+            "error": "#ffb4ab"
+          },
+          fontFamily: {
+            headline: ["Geist", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            mono: ["Geist Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary">
+<!-- Background Ambient Glow -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[480px] bg-primary-container/10 blur-[140px] rounded-full"></div>
+<div class="absolute bottom-10 right-10 w-[380px] h-[380px] bg-secondary-container/15 blur-[130px] rounded-full"></div>
+</div>
+<!-- Streamlined Top Bar -->
+<header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-surface/75 border-b border-outline-variant/30">
+<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+<!-- Brand & Sync Status -->
+<div class="flex items-center gap-5">
+<a class="flex items-center gap-2.5 group" href="#">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container shadow-[0_0_10px_rgba(167,139,250,0.8)]"></span>
+<span class="font-headline font-semibold text-xl tracking-tight text-on-surface group-hover:text-primary transition-colors">Amal.j</span>
+<span class="text-xs px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Vault Admin</span>
+</a>
+<div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low/80 text-xs text-outline border border-outline-variant/30">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>Vault Synced (Turso)</span>
+</div>
+</div>
+<!-- Search Input -->
+<div class="flex-1 max-w-md mx-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[18px] text-outline pointer-events-none">search</span>
+<input class="w-full bg-surface-container-low/70 border border-outline-variant/40 rounded-full pl-10 pr-4 py-1.5 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="filter-input" placeholder="Filter stashes by title, tag, or domain..." type="text"/>
+</div>
+</div>
+<!-- Action & Profile -->
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1.5 bg-primary-container hover:bg-primary text-on-primary font-medium text-xs sm:text-sm px-3.5 py-1.5 rounded-full shadow-[0_0_18px_rgba(167,139,250,0.25)] hover:shadow-[0_0_24px_rgba(167,139,250,0.4)] transition-all active:scale-95" id="btn-quick-stash-focus" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Quick Stash</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-primary cursor-pointer hover:bg-surface-container-highest transition-colors" title="Amal (Admin)">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Space -->
+<main class="relative z-10 flex-1 max-w-5xl w-full mx-auto px-6 py-8 flex flex-col gap-8">
+<!-- Quick Add Strip: Single Line Command Bar -->
+<section class="rounded-2xl bg-surface-container-low/80 backdrop-blur-xl border border-outline-variant/35 p-3.5 sm:p-4 shadow-xl">
+<form class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" id="quick-add-form">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-primary-container text-[20px]">add_link</span>
+<input class="w-full bg-surface-container-lowest/90 border border-outline-variant/40 text-on-surface placeholder:text-outline text-sm rounded-xl pl-11 pr-4 py-2.5 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="quick-url-input" placeholder="Paste link to curate into vault (e.g. https://github.com/libsql/sqld)..." required="" type="url"/>
+</div>
+<!-- Quick Type Selector -->
+<div class="flex items-center gap-1 bg-surface-container-lowest/60 p-1 rounded-xl border border-outline-variant/30 shrink-0">
+<button class="quick-chip active px-3 py-1.5 rounded-lg text-xs font-medium text-primary bg-surface-container-high transition-all" data-type="Article" type="button">Article</button>
+<button class="quick-chip px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" data-type="Tweet" type="button">Tweet</button>
+<button class="quick-chip px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" data-type="Dev Tool" type="button">Dev Tool</button>
+</div>
+<!-- Submit Button -->
+<button class="bg-primary hover:bg-primary-container text-on-primary font-medium text-sm px-5 py-2.5 rounded-xl flex items-center justify-center gap-1.5 shrink-0 shadow-[0_0_20px_rgba(206,189,255,0.2)] transition-all active:scale-95" id="btn-add-stash" type="submit">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+<span>Add Bookmark</span>
+</button>
+</form>
+</section>
+<!-- Sub-header & Filter Navigation Bar -->
+<section class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<h1 class="font-headline font-semibold text-lg text-on-surface tracking-tight">Curated Stashes</h1>
+<span class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container text-outline font-medium" id="stash-counter">128 resources</span>
+</div>
+<!-- Segmented Status Pills -->
+<div class="flex items-center gap-1.5 bg-surface-container-low/70 p-1 rounded-full border border-outline-variant/30 self-start sm:self-auto">
+<button class="status-pill active px-3 py-1 rounded-full text-xs font-medium bg-surface-container-high text-primary shadow-sm transition-all" data-filter="all" type="button">All (128)</button>
+<button class="status-pill px-3 py-1 rounded-full text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" data-filter="published" type="button">Published (94)</button>
+<button class="status-pill px-3 py-1 rounded-full text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" data-filter="draft" type="button">Drafts (7)</button>
+<button class="status-pill px-3 py-1 rounded-full text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" data-filter="pinned" type="button">Pinned (4)</button>
+</div>
+</section>
+<!-- Curated Bookmarks List -->
+<section class="flex flex-col gap-3" id="stash-list">
+<!-- Item 1: Turso / Distributed SQLite -->
+<article class="stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200" data-pinned="true" data-status="published">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1 min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">database</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0">
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">Article</span>
+<span class="flex items-center gap-1 text-emerald-400 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                </span>
+<span class="flex items-center gap-1 text-secondary font-medium">
+<span class="material-symbols-outlined text-[13px]">push_pin</span> Featured
+                </span>
+<span class="text-outline truncate">turso.tech/blog</span>
+</div>
+<h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+<a href="https://turso.tech" rel="noopener noreferrer" target="_blank">How Distributed SQLite Systems like Turso and Litestream Work</a>
+</h2>
+<p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                Deep dive into physical WAL replication, vector search extension integration, and edge-native zero-latency reads.
+              </p>
+<div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+<span class="text-secondary/80">#databases</span>
+<span class="text-secondary/80">#sqlite</span>
+<span class="text-secondary/80">#systems</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 1.8k reads</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 3 days ago</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 shrink-0 text-outline">
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-primary transition-colors" title="Pinned item" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">push_pin</span>
+</button>
+<a class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" href="https://turso.tech" target="_blank" title="Open Link">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Edit" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-error transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 2: ShaderToy Sandbox -->
+<article class="stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200" data-pinned="false" data-status="published">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1 min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-tertiary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">view_in_ar</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0">
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/40 text-secondary font-medium">Dev Tool</span>
+<span class="flex items-center gap-1 text-emerald-400 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                </span>
+<span class="text-outline truncate">shadertoy.com</span>
+</div>
+<h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+<a href="https://shadertoy.com" rel="noopener noreferrer" target="_blank">ShaderToy GLSL Sandbox &amp; Procedural Noise Algorithms</a>
+</h2>
+<p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                Collection of Raymarching SDF formulas, volumetric cloud rendering tricks, and fragment shader math reference.
+              </p>
+<div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+<span class="text-secondary/80">#webgl</span>
+<span class="text-secondary/80">#shaders</span>
+<span class="text-secondary/80">#math</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 940 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 1 week ago</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 shrink-0 text-outline">
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-primary transition-colors" title="Pin Stash" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" href="https://shadertoy.com" target="_blank" title="Open Link">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Edit" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-error transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 3: Framer Motion -->
+<article class="stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200" data-pinned="false" data-status="published">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1 min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-primary-container shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">animation</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0">
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">Article</span>
+<span class="flex items-center gap-1 text-emerald-400 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                </span>
+<span class="text-outline truncate">framer.com/motion</span>
+</div>
+<h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+<a href="#" target="_blank">Crafting Micro-interactions with Framer Motion and Radix UI</a>
+</h2>
+<p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                Amal's note: Check spring physics config with stiffness 380, damping 28 for zero rubberband lag.
+              </p>
+<div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+<span class="text-secondary/80">#ui-ux</span>
+<span class="text-secondary/80">#animation</span>
+<span class="text-secondary/80">#frontend</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">visibility</span> 3.1k reads</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 shrink-0 text-outline">
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-primary transition-colors" title="Pin Stash" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#" title="Open Link">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Edit" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-error transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 4: Tweet Guillermo Rauch -->
+<article class="stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200" data-pinned="false" data-status="published">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1 min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-primary-fixed shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0">
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/30 text-secondary font-medium">Tweet</span>
+<span class="flex items-center gap-1 text-emerald-400 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                </span>
+<span class="text-outline truncate">x.com/rauchg</span>
+</div>
+<h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+<a href="#" target="_blank">Guillermo Rauch on Server Components &amp; Instant-first Architecture</a>
+</h2>
+<p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                "The shift from request-waterfalls to pre-rendered streaming graph partitions represents the single biggest architectural win for low-latency web..."
+              </p>
+<div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+<span class="text-secondary/80">#rsc</span>
+<span class="text-secondary/80">#architecture</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">favorite</span> 482</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 shrink-0 text-outline">
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-primary transition-colors" title="Pin Stash" type="button">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<a class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#" title="Open Link">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Edit" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-error transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 5: vLLM PagedAttention (Draft state) -->
+<article class="stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200" data-pinned="false" data-status="draft">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1 min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-secondary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">article</span>
+</div>
+<div class="flex flex-col gap-1.5 min-w-0">
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-highest text-on-surface-variant font-medium">Whitepaper</span>
+<span class="flex items-center gap-1 text-amber-300 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span> Draft (Unpublished)
+                </span>
+<span class="text-outline truncate">arxiv.org/abs/2309</span>
+</div>
+<h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+<a href="#" target="_blank">vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention</a>
+</h2>
+<p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                Virtual memory translation principles applied to Transformer KV cache management, reducing GPU fragmentation by 96%.
+              </p>
+<div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+<span class="text-secondary/80">#ai-systems</span>
+<span class="text-secondary/80">#inference</span>
+<span class="flex items-center gap-1 text-secondary font-medium">Ready to publish</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 shrink-0">
+<button class="btn-publish px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary text-xs font-medium flex items-center gap-1 transition-all" title="Publish now" type="button">
+<span class="material-symbols-outlined text-[15px]">publish</span>
+<span>Publish</span>
+</button>
+<button class="btn-action p-2 rounded-lg text-outline hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Edit" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="btn-action p-2 rounded-lg text-outline hover:bg-surface-container-high hover:text-error transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Clean Minimal Footer Pagination -->
+<div class="flex items-center justify-between pt-2 pb-6 text-xs text-outline">
+<span>Showing 5 of 128 items</span>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface-variant hover:text-on-surface disabled:opacity-40" disabled="">Previous</button>
+<button class="px-2.5 py-1 rounded-lg bg-primary-container text-on-primary font-medium">1</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface-variant hover:text-on-surface">2</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface-variant hover:text-on-surface">Next</button>
+</div>
+</div>
+</main>
+<!-- Clean Footer Note -->
+<footer class="w-full border-t border-outline-variant/20 py-4 text-center text-xs text-outline">
+    Amal.j Developer Vault Control System • Encrypted &amp; Synchronized
+  </footer>
+<!-- Simple Client Interactivity -->
+<script>
+    (() => {
+      // 1. Focus Quick Stash Input from Top Bar button
+      const quickStashBtn = document.getElementById('btn-quick-stash-focus');
+      const urlInput = document.getElementById('quick-url-input');
+
+      if (quickStashBtn && urlInput) {
+        quickStashBtn.addEventListener('click', () => {
+          urlInput.focus();
+          urlInput.classList.add('ring-2', 'ring-primary-container');
+          setTimeout(() => urlInput.classList.remove('ring-2', 'ring-primary-container'), 1200);
+        });
+      }
+
+      // 2. Type Chip Selector in Quick Add
+      const chips = document.querySelectorAll('.quick-chip');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => {
+            c.classList.remove('active', 'bg-surface-container-high', 'text-primary');
+            c.classList.add('text-on-surface-variant');
+          });
+          chip.classList.add('active', 'bg-surface-container-high', 'text-primary');
+          chip.classList.remove('text-on-surface-variant');
+        });
+      });
+
+      // 3. Filter Pills
+      const statusPills = document.querySelectorAll('.status-pill');
+      const stashItems = document.querySelectorAll('.stash-item');
+
+      statusPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          statusPills.forEach(p => {
+            p.classList.remove('active', 'bg-surface-container-high', 'text-primary', 'shadow-sm');
+            p.classList.add('text-on-surface-variant');
+          });
+          pill.classList.add('active', 'bg-surface-container-high', 'text-primary', 'shadow-sm');
+          pill.classList.remove('text-on-surface-variant');
+
+          const filter = pill.getAttribute('data-filter');
+          stashItems.forEach(item => {
+            const status = item.getAttribute('data-status');
+            const pinned = item.getAttribute('data-pinned') === 'true';
+
+            if (filter === 'all') {
+              item.style.display = 'block';
+            } else if (filter === 'published' && status === 'published') {
+              item.style.display = 'block';
+            } else if (filter === 'draft' && status === 'draft') {
+              item.style.display = 'block';
+            } else if (filter === 'pinned' && pinned) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // 4. Instant Filter Search
+      const filterInput = document.getElementById('filter-input');
+      if (filterInput) {
+        filterInput.addEventListener('input', (e) => {
+          const val = e.target.value.toLowerCase().trim();
+          stashItems.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = (!val || text.includes(val)) ? 'block' : 'none';
+          });
+        });
+      }
+
+      // 5. Quick Add Form Submission Mock
+      const quickAddForm = document.getElementById('quick-add-form');
+      const stashList = document.getElementById('stash-list');
+      const stashCounter = document.getElementById('stash-counter');
+
+      if (quickAddForm) {
+        quickAddForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const url = urlInput.value.trim();
+          if (!url) return;
+
+          const activeChip = document.querySelector('.quick-chip.active');
+          const typeName = activeChip ? activeChip.getAttribute('data-type') : 'Article';
+
+          let domain = 'web.resource';
+          try {
+            domain = new URL(url).hostname.replace('www.', '');
+          } catch(err) {}
+
+          const article = document.createElement('article');
+          article.className = 'stash-item group rounded-2xl bg-surface-container-low/60 hover:bg-surface-container/70 border border-outline-variant/25 hover:border-outline-variant/50 p-5 backdrop-blur-md transition-all duration-200';
+          article.setAttribute('data-pinned', 'false');
+          article.setAttribute('data-status', 'published');
+
+          article.innerHTML = `
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-3.5 flex-1 min-w-0">
+                <div class="w-10 h-10 rounded-xl bg-surface-container-highest/70 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-[20px]">bookmark</span>
+                </div>
+                <div class="flex flex-col gap-1.5 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap text-xs">
+                    <span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">${typeName}</span>
+                    <span class="flex items-center gap-1 text-emerald-400 font-medium">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published
+                    </span>
+                    <span class="text-outline truncate">${domain}</span>
+                  </div>
+                  <h2 class="font-headline font-semibold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors cursor-pointer">
+                    <a href="${url}" target="_blank">${url}</a>
+                  </h2>
+                  <p class="text-sm text-on-surface-variant line-clamp-1 leading-relaxed">
+                    Newly stashed resource curated into the private vault.
+                  </p>
+                  <div class="flex items-center gap-3 pt-1 text-xs text-outline flex-wrap">
+                    <span class="text-secondary/80">#recent</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> Just now</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0 text-outline">
+                <button type="button" class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-primary transition-colors" title="Pin Stash">
+                  <span class="material-symbols-outlined text-[18px]">push_pin</span>
+                </button>
+                <a href="${url}" target="_blank" class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Open Link">
+                  <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                </a>
+                <button type="button" class="btn-action p-2 rounded-lg hover:bg-surface-container-high hover:text-error transition-colors" onclick="this.closest('.stash-item').remove()" title="Delete">
+                  <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+              </div>
+            </div>
+          `;
+
+          stashList.prepend(article);
+          urlInput.value = '';
+          if (stashCounter) stashCounter.textContent = '129 resources';
+        });
+      }
+
+      // 6. Draft Publish Action
+      const publishBtns = document.querySelectorAll('.btn-publish');
+      publishBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const item = e.target.closest('.stash-item');
+          item.setAttribute('data-status', 'published');
+          const badge = item.querySelector('.text-amber-300');
+          if (badge) {
+            badge.className = 'flex items-center gap-1 text-emerald-400 font-medium';
+            badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Published';
+          }
+          btn.remove();
+        });
+      });
+    })();
+  </script>
+</body></html>

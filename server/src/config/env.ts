@@ -9,8 +9,8 @@ const envSchema = z.object({
     JWT_SECRET: z.string().min(32),
     JWT_EXPIRES_IN: z.string().default('7d'),
     CORS_ORIGIN: z.string().default('http://localhost:5173'),
-    ADMIN_EMAIL: z.email(),
-    ADMIN_PASSWORD: z.string().min(8),
+    ADMIN_EMAIL: z.email().optional(),
+    ADMIN_PASSWORD: z.string().min(8).optional(),
 })
 
 const parsed = envSchema.safeParse(process.env)

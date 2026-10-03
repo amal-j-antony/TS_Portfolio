@@ -60,7 +60,7 @@ export function logout(): Promise<void> {
     return request<void>("/api/v1/auth/logout", { method: "POST" })
 }
 
-export type ResourceType = "article" | "tweet" | "tool" | "paper"
+export type ResourceType = "article" | "tweet" | "tool" | "paper" | "video"
 export type ResourceStatus = "draft" | "published"
 export type ResourceSort = "newest" | "oldest" | "reads"
 
@@ -117,6 +117,7 @@ export interface ResourceStats {
     pinned: number
     reads: number
     publishedPercent: number
+    byType: Record<ResourceType, number>
 }
 
 export interface ResourceWritePayload {

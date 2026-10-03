@@ -7,6 +7,7 @@ import {
     MessageCircle,
     Settings,
     Tag,
+    Video,
     Wrench,
     type LucideIcon,
 } from "lucide-react"
@@ -32,6 +33,7 @@ export const resourceTypeMeta: Record<ResourceType, { label: string; icon: Lucid
     tweet: { label: "Tweet / Thread", icon: MessageCircle },
     tool: { label: "Dev Tool", icon: Wrench },
     paper: { label: "Whitepaper", icon: FileStack },
+    video: { label: "Video", icon: Video },
 }
 
 export const resourceStatusMeta: Record<ResourceStatus, { label: string; className: string }> = {
@@ -47,6 +49,7 @@ export const resourceTypeOptions = [
     { value: "tweet", label: "Tweet" },
     { value: "tool", label: "Tool" },
     { value: "paper", label: "Paper" },
+    { value: "video", label: "Video" },
 ]
 
 export const statusFilters = [

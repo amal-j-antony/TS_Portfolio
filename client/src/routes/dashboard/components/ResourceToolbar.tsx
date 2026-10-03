@@ -1,9 +1,11 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from "react-aria-components"
 import { Download, Globe, ListFilter, SlidersHorizontal } from "lucide-react"
-import type { ResourceStatus } from "@/lib/api"
+import type { ResourceStatus, ResourceType } from "@/lib/api"
 import { cn } from "@/lib/utils"
+import { resourceTypeOptions } from "../data"
 
 export type StatusFilter = "all" | ResourceStatus
+export type TypeFilter = "all" | ResourceType
 export type BulkAction = "publish" | "draft" | "delete"
 
 interface ResourceToolbarProps {
@@ -13,7 +15,10 @@ interface ResourceToolbarProps {
     onDomainChange: (value: string) => void
     status: StatusFilter
     onStatusChange: (value: StatusFilter) => void
+    typeFilter: TypeFilter
+    onTypeFilterChange: (value: TypeFilter) => void
     counts: { all: number; published: number; draft: number }
+    typeCounts: Record<ResourceType, number>
     selectedCount: number
     onBulk: (action: BulkAction) => void
     onExport: () => void
@@ -27,7 +32,10 @@ export default function ResourceToolbar({
     onDomainChange,
     status,
     onStatusChange,
+    typeFilter,
+    onTypeFilterChange,
     counts,
+    typeCounts,
     selectedCount,
     onBulk,
     onExport,
@@ -37,6 +45,16 @@ export default function ResourceToolbar({
         { value: "all", label: "All", count: counts.all },
         { value: "published", label: "Published", count: counts.published },
         { value: "draft", label: "Drafts", count: counts.draft },
+    ]
+
+    const typeTotal = Object.values(typeCounts).reduce((sum, value) => sum + value, 0)
+    const typePills: Array<{ value: TypeFilter; label: string; count: number }> = [
+        { value: "all", label: "All Types", count: typeTotal },
+        ...resourceTypeOptions.map((option) => ({
+            value: option.value as ResourceType,
+            label: option.label,
+            count: typeCounts[option.value as ResourceType],
+        })),
     ]
 
     return (
@@ -129,6 +147,24 @@ export default function ResourceToolbar({
                             "rounded-full px-space-md py-1 font-display text-label-sm transition-colors",
                             status === pill.value
                                 ? "bg-primary text-on-primary"
+                                : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high",
+                        )}
+                    >
+                        {pill.label} ({pill.count})
+                    </button>
+                ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-space-sm border-t border-outline-variant/15 pt-space-sm">
+                {typePills.map((pill) => (
+                    <button
+                        key={pill.value}
+                        type="button"
+                        onClick={() => onTypeFilterChange(pill.value)}
+                        className={cn(
+                            "rounded-full px-space-md py-1 font-display text-label-sm transition-colors",
+                            typeFilter === pill.value
+                                ? "bg-secondary-container/50 text-secondary-fixed-dim"
                                 : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high",
                         )}
                     >

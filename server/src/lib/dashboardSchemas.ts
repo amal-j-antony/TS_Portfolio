@@ -1,11 +1,13 @@
 import { z } from 'zod'
 
-export const resourceTypeSchema = z.enum(['article', 'tweet', 'tool', 'paper'])
+export const resourceTypeSchema = z.enum(['article', 'tweet', 'tool', 'paper', 'video'])
 export const resourceStatusSchema = z.enum(['draft', 'published'])
 
 export const idParamSchema = z.object({ id: z.coerce.number().int().positive() })
 
 const articleMetadataSchema = z.object({}).default({})
+
+const videoMetadataSchema = z.object({}).default({})
 
 const tweetMetadataSchema = z
     .object({
@@ -59,6 +61,7 @@ export const resourceCreateSchema = z.discriminatedUnion('type', [
     resourceBaseSchema.extend({ type: z.literal('tweet'), metadata: tweetMetadataSchema }),
     resourceBaseSchema.extend({ type: z.literal('tool'), metadata: toolMetadataSchema }),
     resourceBaseSchema.extend({ type: z.literal('paper'), metadata: paperMetadataSchema }),
+    resourceBaseSchema.extend({ type: z.literal('video'), metadata: videoMetadataSchema }),
 ])
 
 export const resourceUpdateSchema = resourceBaseSchema.partial().extend({

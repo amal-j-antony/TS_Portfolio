@@ -1,4 +1,4 @@
-import { BookOpen, Newspaper, Pin, Shapes, Terminal } from "lucide-react"
+import { BookOpen, Newspaper, Pin, Shapes, Terminal, Video } from "lucide-react"
 import type { Resource } from "@/lib/api"
 import type { ArchiveCard, BadgeTone } from "./data"
 
@@ -28,6 +28,7 @@ const typeBadge: Record<Resource["type"], { icon: typeof Newspaper; label: strin
     tweet: { icon: Terminal, label: "Thread", tone: "neutral" },
     tool: { icon: Shapes, label: "Dev Tool", tone: "tertiary" },
     paper: { icon: BookOpen, label: "Whitepaper", tone: "secondary" },
+    video: { icon: Video, label: "Video", tone: "primary" },
 }
 
 export function mapResourceToCard(resource: Resource): ArchiveCard {

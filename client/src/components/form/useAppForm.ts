@@ -3,7 +3,7 @@ import { fieldContext, formContext } from "./context"
 import {
     CheckboxField,
     PasswordField,
-    SegmentedField,
+    SelectField,
     TagInput,
     TextAreaField,
     TextField,
@@ -18,7 +18,7 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
         PasswordField,
         TextAreaField,
         CheckboxField,
-        SegmentedField,
+        SelectField,
         TagInput,
     },
     formComponents: {

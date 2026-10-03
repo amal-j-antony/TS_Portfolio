@@ -7,14 +7,14 @@ import { db, pool } from './index.js'
 import { resourceTagsTable, resourcesTable, tagsTable } from './dashboardSchema.js'
 import { usersTable } from './userSchema.js'
 
-async function seedAdmin(): Promise<void> {
-    const passwordHash = await bcrypt.hash(env.ADMIN_PASSWORD, BCRYPT_ROUNDS)
+async function seedAdmin(credentials: { email: string; password: string }): Promise<void> {
+    const passwordHash = await bcrypt.hash(credentials.password, BCRYPT_ROUNDS)
 
     await db.transaction(async (tx) => {
         const existing = await tx
             .select({ id: usersTable.id })
             .from(usersTable)
-            .where(eq(usersTable.email, env.ADMIN_EMAIL))
+            .where(eq(usersTable.email, credentials.email))
             .limit(1)
 
         if (existing[0]) {
@@ -25,13 +25,13 @@ async function seedAdmin(): Promise<void> {
             return
         }
 
-        await tx.insert(usersTable).values({ email: env.ADMIN_EMAIL, password: passwordHash })
+        await tx.insert(usersTable).values({ email: credentials.email, password: passwordHash })
     })
 
-    logger.info({ email: env.ADMIN_EMAIL }, 'Admin user seeded')
+    logger.info({ email: credentials.email }, 'Admin user seeded')
 }
 
-type SeedResourceType = 'article' | 'tweet' | 'tool' | 'paper'
+type SeedResourceType = 'article' | 'tweet' | 'tool' | 'paper' | 'video'
 type SeedResourceStatus = 'draft' | 'published'
 
 interface SeedResource {
@@ -164,6 +164,18 @@ const seedResources: SeedResource[] = [
         daysAgo: 5,
         tags: ['typescript', 'systems'],
     },
+    {
+        title: 'Build a Realtime Collaborative Editor — Architecture Walkthrough',
+        url: 'https://www.youtube.com/watch?v=scoped-architecture-walkthrough',
+        sourceDomain: 'youtube.com',
+        type: 'video',
+        status: 'published',
+        excerpt:
+            'A full walkthrough of CRDT-based collaboration, presence, and conflict-free merges in a production editor.',
+        reads: 1260,
+        daysAgo: 4,
+        tags: ['react', 'architecture'],
+    },
 ]
 
 function slugify(value: string): string {
@@ -236,7 +248,18 @@ async function seedDashboardData(): Promise<void> {
     logger.info({ count: seedResources.length }, 'Dashboard resources seeded')
 }
 
-Promise.all([seedAdmin(), seedDashboardData()])
+function requireAdminCredentials(): { email: string; password: string } {
+    const { ADMIN_EMAIL, ADMIN_PASSWORD } = env
+    if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+        logger.error('ADMIN_EMAIL and ADMIN_PASSWORD are required to run db:seed')
+        process.exit(1)
+    }
+    return { email: ADMIN_EMAIL, password: ADMIN_PASSWORD }
+}
+
+const adminCredentials = requireAdminCredentials()
+
+Promise.all([seedAdmin(adminCredentials), seedDashboardData()])
     .then(() => pool.end())
     .catch((err: unknown) => {
         logger.error({ err }, 'Seed failed')
