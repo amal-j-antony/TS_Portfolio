@@ -36,7 +36,7 @@ export function mapResourceToCard(resource: Resource): ArchiveCard {
     const stats = isRecord(meta.stats) ? meta.stats : {}
 
     const tags = resource.tags.map((tag) => `#${tag.slug}`)
-    const source = resource.sourceDomain ?? resource.url
+    const source = resource.sourceDomain || resource.url
     const href = resource.url
     const time = formatRelative(resource.publishedAt ?? resource.createdAt)
     const description = resource.excerpt ?? resource.curatorNote ?? ""

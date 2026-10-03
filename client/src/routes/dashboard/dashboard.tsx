@@ -12,6 +12,8 @@ import TelemetryStrip from "./components/TelemetryStrip"
 export default function Dashboard() {
     const [q, setQ] = useState("")
     const [debouncedQ, setDebouncedQ] = useState("")
+    const [domain, setDomain] = useState("")
+    const [debouncedDomain, setDebouncedDomain] = useState("")
     const [status, setStatus] = useState<StatusFilter>("all")
     const [page, setPage] = useState(1)
     const [perPage, setPerPage] = useState(10)
@@ -24,11 +26,17 @@ export default function Dashboard() {
         return () => window.clearTimeout(timeout)
     }, [q])
 
+    useEffect(() => {
+        const timeout = window.setTimeout(() => setDebouncedDomain(domain.trim()), 300)
+        return () => window.clearTimeout(timeout)
+    }, [domain])
+
     const filters: ResourceListFilters = {
         page,
         perPage,
         sort: "newest",
         ...(debouncedQ ? { q: debouncedQ } : {}),
+        ...(debouncedDomain ? { domain: debouncedDomain } : {}),
         ...(status === "all" ? {} : { status }),
     }
 
@@ -100,6 +108,11 @@ export default function Dashboard() {
                         q={q}
                         onQChange={(value) => {
                             setQ(value)
+                            setPage(1)
+                        }}
+                        domain={domain}
+                        onDomainChange={(value) => {
+                            setDomain(value)
                             setPage(1)
                         }}
                         status={status}

@@ -1,5 +1,9 @@
 import { db } from '../db/index.js'
 import { NotFoundError } from '../lib/errors.js'
+import {
+    deriveHostname,
+    normalizeOptionalText,
+} from '../lib/url.js'
 import type {
     ResourceBulkInput,
     ResourceCreateInput,
@@ -29,6 +33,12 @@ export interface ResourceListResult {
 
 function toDto(record: ResourceRecord, tags: TagRecord[]): ResourceDto {
     return { ...record, tags }
+}
+
+function resolveSourceDomain(provided: string | null | undefined, url: string): string | null {
+    const normalized = normalizeOptionalText(provided)
+    if (normalized) return normalized.toLowerCase()
+    return deriveHostname(url)
 }
 
 async function resolveTagIds(
@@ -64,6 +74,7 @@ export async function list(query: ResourceListQuery): Promise<ResourceListResult
         status: query.status,
         type: query.type,
         tag: query.tag,
+        domain: query.domain,
         q: query.q,
         page: query.page,
         perPage: query.perPage,
@@ -94,11 +105,11 @@ export async function create(input: ResourceCreateInput): Promise<ResourceDto> {
         const record = await resourceRepository.create(tx, {
             title: input.title,
             url: input.url,
-            sourceDomain: input.sourceDomain ?? null,
+            sourceDomain: resolveSourceDomain(input.sourceDomain, input.url),
             type: input.type,
             status: input.status,
-            excerpt: input.excerpt ?? null,
-            curatorNote: input.curatorNote ?? null,
+            excerpt: normalizeOptionalText(input.excerpt),
+            curatorNote: normalizeOptionalText(input.curatorNote),
             metadata: input.metadata,
             featured: input.featured,
             pinned: input.pinned,
@@ -123,10 +134,12 @@ export async function update(id: number, input: ResourceUpdateInput): Promise<Re
         const patch: Partial<ResourceWriteInput> = {}
         if (input.title !== undefined) patch.title = input.title
         if (input.url !== undefined) patch.url = input.url
-        if (input.sourceDomain !== undefined) patch.sourceDomain = input.sourceDomain ?? null
+        if (input.sourceDomain !== undefined) {
+            patch.sourceDomain = resolveSourceDomain(input.sourceDomain, input.url ?? existing.url)
+        }
         if (input.type !== undefined) patch.type = input.type
-        if (input.excerpt !== undefined) patch.excerpt = input.excerpt ?? null
-        if (input.curatorNote !== undefined) patch.curatorNote = input.curatorNote ?? null
+        if (input.excerpt !== undefined) patch.excerpt = normalizeOptionalText(input.excerpt)
+        if (input.curatorNote !== undefined) patch.curatorNote = normalizeOptionalText(input.curatorNote)
         if (input.metadata !== undefined) patch.metadata = input.metadata
         if (input.featured !== undefined) patch.featured = input.featured
         if (input.pinned !== undefined) patch.pinned = input.pinned

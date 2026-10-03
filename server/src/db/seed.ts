@@ -55,7 +55,7 @@ const seedResources: SeedResource[] = [
     {
         title: 'How Distributed SQLite Systems like Turso and Litestream Work',
         url: 'https://turso.tech/blog/distributed-sqlite',
-        sourceDomain: 'turso.tech/blog',
+        sourceDomain: 'turso.tech',
         type: 'article',
         status: 'published',
         excerpt:
@@ -81,7 +81,7 @@ const seedResources: SeedResource[] = [
     {
         title: 'Crafting Micro-interactions with Framer Motion and Radix UI',
         url: 'https://motion.dev/blog/micro-interactions',
-        sourceDomain: 'framer.com/motion',
+        sourceDomain: 'motion.dev',
         type: 'article',
         status: 'published',
         excerpt:
@@ -96,7 +96,7 @@ const seedResources: SeedResource[] = [
     {
         title: 'Guillermo Rauch on Server Components & Instant-first Architecture',
         url: 'https://x.com/rauchg/status/server-components',
-        sourceDomain: 'x.com/rauchg',
+        sourceDomain: 'x.com',
         type: 'tweet',
         status: 'published',
         excerpt:
@@ -112,7 +112,7 @@ const seedResources: SeedResource[] = [
     {
         title: 'vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention',
         url: 'https://arxiv.org/abs/2309.06180',
-        sourceDomain: 'arxiv.org/abs/2309',
+        sourceDomain: 'arxiv.org',
         type: 'paper',
         status: 'draft',
         excerpt:
@@ -153,7 +153,7 @@ const seedResources: SeedResource[] = [
     {
         title: 'Types are tests: property-based testing in TypeScript',
         url: 'https://x.com/typescript/status/property-based',
-        sourceDomain: 'x.com/typescript',
+        sourceDomain: 'x.com',
         type: 'tweet',
         status: 'draft',
         excerpt: 'Treating the type system as a test harness for invariants that runtime tests rarely reach.',

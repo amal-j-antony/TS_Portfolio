@@ -70,6 +70,7 @@ export const resourceListQuerySchema = z.object({
     status: resourceStatusSchema.optional(),
     type: resourceTypeSchema.optional(),
     tag: z.string().min(1).optional(),
+    domain: z.string().min(1).optional(),
     q: z.string().min(1).optional(),
     page: z.coerce.number().int().positive().default(1),
     perPage: z.coerce.number().int().positive().max(100).default(10),

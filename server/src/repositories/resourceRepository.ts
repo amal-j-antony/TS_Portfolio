@@ -48,6 +48,7 @@ export interface ResourceFilters {
     status?: ResourceStatus | undefined
     type?: ResourceType | undefined
     tag?: string | undefined
+    domain?: string | undefined
     q?: string | undefined
     page: number
     perPage: number
@@ -90,6 +91,9 @@ function buildWhere(client: DbClient, filters: ResourceFilters): SQL | undefined
     }
     if (filters.type) {
         conditions.push(eq(resourcesTable.type, filters.type))
+    }
+    if (filters.domain) {
+        conditions.push(eq(resourcesTable.sourceDomain, filters.domain.toLowerCase()))
     }
     if (filters.q) {
         const term = `%${filters.q}%`

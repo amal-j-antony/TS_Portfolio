@@ -96,6 +96,7 @@ export interface ResourceListFilters {
     status?: ResourceStatus
     type?: ResourceType
     tag?: string
+    domain?: string
     q?: string
     page?: number
     perPage?: number

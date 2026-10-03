@@ -40,6 +40,7 @@ export const resourcesTable = pgTable(
         index('resources_status_idx').on(table.status),
         index('resources_type_idx').on(table.type),
         index('resources_created_at_idx').on(table.createdAt),
+        index('resources_source_domain_idx').on(table.sourceDomain),
     ],
 )
 

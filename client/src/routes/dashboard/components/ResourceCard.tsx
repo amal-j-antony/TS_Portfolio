@@ -71,7 +71,7 @@ export default function ResourceCard({ resource, selected, onToggleSelect, onEdi
                             </span>
                         )}
                         <span className="truncate font-display text-label-sm text-outline">
-                            {resource.sourceDomain ?? resource.url}
+                            {resource.sourceDomain || resource.url}
                         </span>
                     </div>
 
